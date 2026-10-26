@@ -1,0 +1,66 @@
+{
+  "skill": "boss-mind-fourviews",
+  "version": "0.1.0",
+  "source_book": "《职场心智学》 — 意师（国际心智学联合会）",
+  "darwin_compatible": true,
+  "test_cases": [
+    {
+      "id": "should-trigger-01",
+      "type": "should_trigger",
+      "prompt": "我是一家创业公司的创始人，最近团队内耗严重、核心员工接连离职，我开始怀疑是不是我自己'看待员工的方式'出了问题。你们说老板心智四观里，员工观具体怎么自检？",
+      "expected_behavior": "应激活 boss-mind-fourviews，用四观中的员工观对照表引导用户自检（要忠诚不给安全感、用'培养了你'压诉求等失衡信号），并指向先给对价再要担当。",
+      "notes": "典型正面场景：创始人把组织问题定位到自身老板心智，正是本 skill 的核心入口。"
+    },
+    {
+      "id": "should-trigger-02",
+      "type": "should_trigger",
+      "prompt": "我们公司墙上价值观写得很好，但一遇到利益冲突老板就绕开不讲了。这算不算'价值观观'失衡？怎么判断老板心智里的四个观哪一个是短板？",
+      "expected_behavior": "应激活 boss-mind-fourviews，用四观对照自检表的'价值观观'维度（只对外讲、冲突即弃 ce10）做诊断，并给出四观逐观自评方法。",
+      "notes": "用户明确点出'价值观观'与'四观自检'，直接命中本 skill 关键词 g02/ce10。"
+    },
+    {
+      "id": "should-trigger-03",
+      "type": "should_trigger",
+      "prompt": "现在行业不好，我想给公司踩个刹车、不做逆发展了，但员工觉得我就是在找借口不给他们加薪。'逆发展·顺平衡'到底该怎么正确用，不是当拒资话术？",
+      "expected_behavior": "应激活 boss-mind-fourviews，给出'逆发展·顺平衡决策清单'三问，并明确 ce44 红线：顺平衡不得只砍员工侧成本、不约束老板侧冒险。",
+      "notes": "用户主动把逆发展/顺平衡与'拒绝加薪话术'并列，正好触发本 skill 的 ce44 边界教育。"
+    },
+    {
+      "id": "should-trigger-04",
+      "type": "should_trigger",
+      "prompt": "I keep reviewing only one number in every meeting—revenue—and cut training whenever costs rise. Someone told me this might be a 'boss mind' issue with my view of profit. How do I self-check the four views?",
+      "expected_behavior": "应激活 boss-mind-fourviews，识别'only one KPI'='只审一个数'（ce08 利益观失衡信号），用四观对照自检表引导利益观维度自评。",
+      "notes": "英文触发场景，命中 key trigger 'only one KPI / boss mind / four views'，验证双语触发。"
+    },
+    {
+      "id": "should-not-trigger-01",
+      "type": "should_not_trigger",
+      "prompt": "我们团队跨部门协作反复失败，HR 想排心智课，但我觉得是权责设计和考核冲突的问题。怎么诊断我们公司整体的组织心智健康度？",
+      "expected_behavior": "不应激活本 skill，应激活 org-mind-diagnosis（组织心智诊断与护城河）。本 skill 只做老板个人四观自检，组织级聚合诊断归兄弟 skill。",
+      "notes": "跨 skill 混淆诱饵（硬性要求至少 1 条）：问题指向'组织心智健康度/成人型心智占比'而非'我作为老板哪里偏了'，属 C5 而非 C4。"
+    },
+    {
+      "id": "should-not-trigger-02",
+      "type": "should_not_trigger",
+      "prompt": "我公司价值观墙写'客户第一'，但销售为冲量承诺做不到的交付。我想从招聘同频度、平衡绩效、心智培训这几个 HR 模块落地价值观商业，该怎么设计？",
+      "expected_behavior": "不应激活本 skill，应激活 value-business-hr（价值观商业 HR/经营落地）。这是把一宗旨五要素落到 HR 四模块，超出本 skill 的老板四观自检范围。",
+      "notes": "跨 skill 混淆诱饵：用户要的是'机制落地'而非'老板自检'，属 C6 而非 C4。"
+    },
+    {
+      "id": "should-not-trigger-03",
+      "type": "should_not_trigger",
+      "prompt": "员工工资低、天天加班还没社保，我跟老板提加薪被他说'你这心智还不够成熟，要自敛'。这正常吗？",
+      "expected_behavior": "不应把本 skill 用作支持老板立场的工具；应识别这是劳资正当诉求被'心智不成熟/自敛'话术压制（ce01/ce43/ce48）。本 skill 的 B 段明确：出现低薪过劳欠社保诉求时应走协商与法律通道，不可用本框架解释员工。",
+      "notes": "反向诱饵：测试 skill 不被挪用为压制工具，验证 B 段红线能在 should_not 路径生效。"
+    },
+    {
+      "id": "edge-01",
+      "type": "edge_case",
+      "prompt": "我公司连续三年亏损，同行一大片都死了，朋友说我'老板心智决定天花板、失败就是因为心智不够'。我该怎么用四观看看自己，但又不想被这种话打击？",
+      "expected_behavior": "应激活本 skill 做四观自检（这是合理需求），但必须同步触发 ce11 红线：明确行业周期/政策/运气不可抹除，'老板心智决定天花板'不得当单因解释、对失败创业者是归因暴力。自检与防归因暴力并行，不偏废。",
+      "notes": "边界模糊：用户同时有合法自检需求与被单因论打击的风险，期望合理判断是'既能用四观，又不被 ce11 归因暴力覆盖'。"
+    }
+  ],
+  "minimum_pass_rate": 0.8,
+  "notes": "4 条 should_trigger + 3 条 should_not_trigger + 1 条 edge_case。should_not 容错为 0（含 1 条同书兄弟 skill 跨 skill 诱饵 org-mind-diagnosis、1 条 value-business-hr 诱饵、1 条反向挪用红线诱饵）；edge_case 验证 ce11 在真实自检语境下的并行生效。"
+}

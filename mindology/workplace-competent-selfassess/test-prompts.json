@@ -1,0 +1,52 @@
+{
+  "skill": "workplace-competent-selfassess",
+  "version": "0.1.0",
+  "source_book": "《职场心智学》 — 意师（国际心智学联合会）",
+  "darwin_compatible": true,
+  "test_cases": [
+    {
+      "id": "should-trigger-01",
+      "type": "should_trigger",
+      "prompt": "我想系统评估一下自己算不算合格职场人，感觉在承责和协作上总差点意思，但又说不清差在哪。",
+      "expected_behavior": "应激活 workplace-competent-selfassess，引导用户填四能力自评表（能承责/能协作/能自敛/能成长）并用三维度定位缺口层级。",
+      "notes": "典型正例：用户主动要求做合格职场人自检，且已模糊意识到具体能力短板。"
+    },
+    {
+      "id": "should-trigger-02",
+      "type": "should_trigger",
+      "prompt": "同事说我太玻璃心、难合作，我自己也纠结这到底是我的心智不够成熟，还是边界没划清。怎么判断？",
+      "expected_behavior": "应激活 workplace-competent-selfassess，用四能力+三维度帮他区分'情绪成熟度/社交成熟度缺口'与'边界不清'，并警告不得由他人给他贴心智层级标签(ce35)。",
+      "notes": "正例：用户困惑于自身成熟度自评，且涉及'玻璃心'与边界，非 PUA、非结构问题。"
+    },
+    {
+      "id": "should-trigger-03",
+      "type": "should_trigger",
+      "prompt": "我是不是把自敛和怂搞混了？每次都说'没关系'，回家却越想越憋屈，同事也总试探我的底线。",
+      "expected_behavior": "应激活 workplace-competent-selfassess，识别这是伪谦和(ce40)而非真自敛，引导区分'真自敛=柔中有界'与'无边界老好人'，并给最小必要表达练习。",
+      "notes": "正例：直接命中'自敛 vs 怂'差异化洞见，且自述符合伪谦和信号。"
+    },
+    {
+      "id": "should-not-trigger-01",
+      "type": "should_not_trigger",
+      "prompt": "我们部门跨部门协作反复失败，HR 想排心智课，但我看是权责设计混乱、考核互相冲突。",
+      "expected_behavior": "不应激活本 skill（避免 ce04 红线：不得把结构性协作失败读成个人心智不成熟），应指出先查结构成因，转 org-mind-diagnosis。",
+      "notes": "诱饵：看似'协作'相关，实为组织结构性问题，属本 skill 明确禁用的反场景(ce04/ce12)。"
+    },
+    {
+      "id": "should-not-trigger-02",
+      "type": "should_not_trigger",
+      "prompt": "我的上级天天当众贬低我、冷暴力，让我怀疑是不是自己太玻璃心，我是不是该辞职？",
+      "expected_behavior": "不应激活本 skill，应激活 workplace-pua-guard（职场 PUA 识别与拿回判断力），严禁用本 skill 把受害体验读成'你心智不够/该自敛'(ce43/ce04)。",
+      "notes": "跨 skill 混淆诱饵(硬性要求至少1条)：指向兄弟 skill workplace-pua-guard，防止本 skill 越界接管 PUA 场景。"
+    },
+    {
+      "id": "edge-01",
+      "type": "edge_case",
+      "prompt": "我是新经理，上级每周末发长篇'加油'长文还倾诉家事，我既不敢不回又觉得被吞噬，这算我自敛不够还是边界问题？",
+      "expected_behavior": "可激活本 skill 做个人自检，但须立刻提示：这是'角色边界/情绪边界/时间边界'失守（四维度），属 relation-rebuild 范畴；并警告不得把'不回=不忠诚'读成'你心智不够'(ce43)。若用户实际是被上级情感控制，则转 relation-rebuild 而非继续纯自评。",
+      "notes": "边界：用户以自评口吻进入，但真实情境跨到关系边界与上级越界，需在自评与关系重构之间分流，且触碰 ce43 红线附近。"
+    }
+  ],
+  "minimum_pass_rate": 0.8,
+  "notes": "至少 3 条 should_trigger + 2 条 should_not_trigger + 1 条 edge_case。全部 should_not_trigger 必须通过(诱饵容错为 0)，且其中至少 1 条是同书兄弟 skill 的场景(should-not-trigger-02 指向 workplace-pua-guard，跨 skill 混淆测试)。"
+}

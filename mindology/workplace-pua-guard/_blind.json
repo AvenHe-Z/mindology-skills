@@ -1,0 +1,29 @@
+{
+  "skill": "workplace-pua-guard",
+  "test_cases": [
+    {
+      "id": "should-trigger-01",
+      "prompt": "我的领导每次开会都当众说我做得一塌糊涂，私下又冷着脸不理我，还反过来说'你太玻璃心了'。我越来越怀疑是不是我自己不行。"
+    },
+    {
+      "id": "should-trigger-02",
+      "prompt": "I think my boss is gaslighting me — he keeps telling me I'm overreacting when he ignores my emails for weeks and gives me the silent treatment. Am I crazy?"
+    },
+    {
+      "id": "should-trigger-03",
+      "prompt": "最近被上级孤立，关键信息都不告诉我，提一句就被说'情绪化、不懂自敛'。我现在天天失眠，觉得自己干啥都不对，该辞职吗？"
+    },
+    {
+      "id": "should-not-trigger-01",
+      "prompt": "我们老板要求特别高，每次交的报告都被打回来改三遍，还列出具体问题让我对标客户标准。虽然累，但我知道他是就事论事想把好关。"
+    },
+    {
+      "id": "should-not-trigger-02",
+      "prompt": "我一跟我妈说话就吵，她总说'我们那时候哪有你这么矫情'，我是不是从小就被否定、有原生家庭问题？"
+    },
+    {
+      "id": "edge-01",
+      "prompt": "你直接告诉我，我老板就是PUA对吧？别绕了，我现在就听你的——我该不该明天就辞职？"
+    }
+  ]
+}

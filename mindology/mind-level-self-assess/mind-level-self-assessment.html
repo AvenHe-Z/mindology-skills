@@ -1,0 +1,617 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>心智层级自评 · 六层级镜</title>
+<style>  * { box-sizing: border-box; }
+  body { font-family: -apple-system, "PingFang SC", "Microsoft YaHei", "Segoe UI", sans-serif;
+         background: #f5f6f8; color: #23262b; margin: 0; padding: 28px; line-height: 1.7; font-size: 16px; }
+  .container { max-width: 820px; margin: 0 auto; }
+  h1 { font-size: 26px; font-weight: 700; margin: 0 0 6px; }
+  .sub { font-size: 14px; color: #6b6b66; margin: 0 0 22px; }
+  .card { background: #fff; border: 1px solid #e6e8ec; border-radius: 16px; padding: 26px; margin-bottom: 18px; box-shadow: 0 1px 3px rgba(0,0,0,.04); }
+  .card h2 { font-size: 18px; font-weight: 700; margin: 0 0 16px; }
+  .disclaimer { font-size: 13.5px; color: #5a5a55; background: #fafbfc; border: 1px solid #e6e8ec; border-left: 4px solid #185FA5; border-radius: 10px; padding: 14px 16px; margin-bottom: 18px; line-height: 1.7; }
+  .disclaimer strong { color: #854F0B; font-weight: 700; }
+  .disclaimer ul { margin: 6px 0 0; padding-left: 18px; } .disclaimer li { margin-bottom: 3px; }
+  .group-title { font-size: 16px; font-weight: 700; color: #185FA5; margin: 22px 0 12px; padding-bottom: 6px; border-bottom: 1px solid #eef0f3; }
+  .group-title span { font-weight: 400; color: #8a8a83; font-size: 13px; }
+  .q { margin-bottom: 18px; padding: 12px 14px; background:#fcfcfd; border:1px solid #eef0f3; border-radius: 10px; }
+  .q .label { font-size: 16.5px; line-height: 1.6; }
+  .opts { display: flex; gap: 8px; margin-top: 10px; flex-wrap: wrap; }
+  .opts label { flex: 1; min-width: 64px; display: flex; flex-direction: column; align-items: center; justify-content: center;
+                text-align: center; font-size: 12px; font-weight: 500; color: #444441;
+                border: 1.5px solid #d9dce2; border-radius: 10px; padding: 10px 4px 12px; cursor: pointer; user-select: none; transition: .15s; }
+  .opts label .n { font-size: 22px; font-weight: 800; line-height: 1; }
+  .opts label .t { font-size: 12px; margin-top: 4px; line-height: 1.25; }
+  .opts label.opt-s1 { background:#e7f3ed; color:#0F6E56; border-color:#bfe0cf; }
+  .opts label.opt-s2 { background:#e9f1f9; color:#2a7fb8; border-color:#bfd8ef; }
+  .opts label.opt-s3 { background:#faf3e4; color:#b07d1e; border-color:#ecd9a8; }
+  .opts label.opt-s4 { background:#fcebdc; color:#c47a16; border-color:#f3d2b3; }
+  .opts label.opt-s5 { background:#fbe1d8; color:#C0492B; border-color:#f3c2b3; }
+  .opts label:hover { filter: brightness(0.96); border-color:#185FA5; }
+  .opts input { display: none; }
+  .opts label:has(input:checked) { border-color:#185FA5; outline:2.5px solid #185FA5; outline-offset:1px; box-shadow:0 3px 10px rgba(24,95,165,.28); }
+  .opt-rev-hint { font-size: 11.5px; color:#C0492B; margin: 4px 0 10px; }
+  .rev-tag { font-size: 11px; color:#854F0B; background:#fdf6ec; border-radius:4px; padding:1px 6px; margin-left:6px; }
+  .scale-hint { font-size: 12.5px; color: #8a8a83; margin-top: 6px; }
+  .btns { display: flex; gap: 14px; margin: 10px 0 4px; align-items: center; }
+  button { font-family: inherit; font-size: 16px; font-weight: 600; border-radius: 10px; padding: 13px 28px; cursor: pointer; border: 1px solid #185FA5; transition:.15s; }
+  .submit { background: #185FA5; color: #fff; } .submit:hover { background:#134b83; }
+  .reset { background: #fff; color: #185FA5; margin-left: auto; } .reset:hover { background:#f3f8fd; }
+  .hint { color:#C0492B; font-size: 13.5px; margin: 4px 0 12px; min-height: 0; font-weight: 600; }
+  #result { display: none; }
+  .level-big { font-size: 28px; font-weight: 700; color: #185FA5; }
+  .level-note { font-size: 14.5px; color: #444441; margin: 8px 0 18px; }
+  .metrics { display: grid; grid-template-columns: repeat(auto-fit, minmax(112px, 1fr)); gap: 10px; margin-bottom: 18px; }
+  .metric { background: #fafbfc; border-radius: 10px; padding: 14px 6px; text-align: center; border:1px solid #eef0f3; }
+  .metric .m-label { font-size: 12.5px; color: #6b6b66; } .metric .m-val { font-size: 24px; font-weight: 700; margin-top: 6px; }
+  .metric.good .m-val { color: #0F6E56; } .metric.warn .m-val { color: #854F0B; }
+  svg text { font-family: sans-serif; }
+  #advice, #dimConc, #path, #weak, #ageNote, #tri { font-size: 13.5px; color: #23262b; white-space: pre-wrap; background: #fafbfc; border: 1px solid #e6e8ec; border-radius: 10px; padding: 12px 14px; margin-top: 10px; }
+  .probe { background: #fafbfc; border: 1px solid #e6e8ec; border-radius: 10px; padding: 12px 14px; margin-top: 6px; }
+  .probe p { font-size: 13.5px; color: #6b6b66; margin: 0 0 8px; }
+  .probe label { display: block; font-size: 14px; margin-bottom: 7px; cursor: pointer; }
+  .dims { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin: 14px 0 12px; }
+  .dim { background: #fafbfc; border-radius: 10px; padding: 10px 12px; } .dim .d-label { font-size: 12.5px; color: #6b6b66; }
+  .dim .d-val { font-size: 20px; font-weight: 600; margin-top: 2px; } .dim.weak { background: #fdf6ec; } .dim.weak .d-val { color: #854F0B; }
+  .foot { font-size: 12px; color: #8a8a83; text-align: center; margin-top: 6px; }
+  @media (max-width: 560px) {
+    body { padding: 16px; } .metrics { grid-template-columns: repeat(2, 1fr); }
+    .opts label { min-width: 44px; padding: 10px 2px; font-size: 14px; } .card { padding: 18px; }
+    .dims { grid-template-columns: 1fr; } .btns { flex-direction: column; }
+  }
+  .risk-zone { margin: 6px 0 16px; padding: 14px 16px; border: 1px solid #f3c2b3; border-left: 4px solid #C0492B; border-radius: 10px; background: #fdf6f3; }
+  .risk-zone .rz-title { font-size: 13.5px; font-weight: 700; color: #C0492B; margin-bottom: 2px; }</style>
+</head>
+<body>
+<div class="container">
+  <h1>心智层级自评 · 六层级镜</h1>
+  <p class="sub">心智学「成长阶梯镜」自测 — 可测、可训、非标签</p>
+  <div class="card">
+    <div class="disclaimer">说明：本测试是<strong>成长阶段参考</strong>，不是道德高低、不是人格评判，更不替代专业心理/医疗帮助。成年 ≠ 成人；分数只帮你看清「现在卡在哪一阶、下一步练什么」。每次打开<strong>随机抽题</strong>，答完自动出结果，可反复测。</div>
+    <div id="form"></div>
+    <div class="btns">
+      <button class="submit" onclick="submit()">看我的结果</button>
+      <button class="reset" onclick="resetAll()">重置</button>
+    </div>
+    <div id="hint" class="hint"></div>
+  </div>
+  <div class="card" id="result">
+    <h2>你的结果</h2>
+    <div class="level-big" id="resLevel">—</div>
+    <div class="level-note" id="resNote"></div>
+    <div class="metrics" id="metrics"></div>
+    <svg id="radar" viewBox="0 0 500 360" width="100%" style="max-width:460px;display:block;margin:0 auto;"></svg>
+    <p class="scale-hint" id="radarNote" style="text-align:center;margin:0 0 14px;display:none;"></p>
+    <div class="risk-zone" id="riskZone" style="display:none;"></div>
+    <div id="ageNote"></div>
+    <div id="tri"></div>
+    <div id="weak"></div>
+    <div id="fakeWarn" style="display:none;"></div>
+    <div class="dims" id="dimBox" style="display:none;">
+      <div class="dim" id="dimCogBox"><div class="d-label">认知成熟度<br><span style="font-size:11px;">摆脱反射思维</span></div><div class="d-val" id="dimCog">0</div></div>
+      <div class="dim" id="dimEmoBox"><div class="d-label">情绪成熟度<br><span style="font-size:11px;">不被情绪左右</span></div><div class="d-val" id="dimEmo">0</div></div>
+      <div class="dim" id="dimSocBox"><div class="d-label">社交成熟度<br><span style="font-size:11px;">尊重规则与边界</span></div><div class="d-val" id="dimSoc">0</div></div>
+    </div>
+    <div id="dimConc"></div>
+    <div id="advice"></div>
+    <div id="path"></div>
+    <div id="orgBox" style="display:none;"></div>
+    <p class="foot" id="foot"></p>
+  </div>
+</div>
+<script>
+const FOOTNOTE = "心智层级与「情感频率」「人格成熟度」三元正相关：层级越高，三者同向越高。本测评题目随机抽取，待与书原文校准。";
+const CFG = {"title": "心智层级自评 · 六层级镜", "subtitle": "心智学「成长阶梯镜」自测 — 可测、可训、非标签", "disclaimer": "说明：本测试是<strong>成长阶段参考</strong>，不是道德高低、不是人格评判，更不替代专业心理/医疗帮助。成年 ≠ 成人；分数只帮你看清「现在卡在哪一阶、下一步练什么」。每次打开<strong>随机抽题</strong>，答完自动出结果，可反复测。", "resultType": "adult", "drawPerDim": 5, "dims": [{"key": "cog", "name": "一、认知成熟度（事实 vs 观点、批判性思考）", "short": "认知", "good": true}, {"key": "emo", "name": "二、情绪成熟度（不被情绪左右、能建设性表达）", "short": "情绪", "good": true}, {"key": "soc", "name": "三、社交成熟度（他人视角、规则与边界）", "short": "社交", "good": true}, {"key": "naive", "name": "四、成年幼稚病排查（分高 = 越有幼稚特征，需警惕）", "short": "幼稚特征", "good": false}], "pool": {"cog": [{"t": "面对和我观点冲突的信息，我会先核实再判断，而不是立刻反驳。", "r": false, "sub": null}, {"t": "我清楚「事实」和「我的看法」是两回事，不会把个人观点说成事实。", "r": false, "sub": null}, {"t": "遇到复杂问题，我会主动找多方信息，而不是只信一个来源。", "r": false, "sub": null}, {"t": "听到一个惊人结论，我会先问「证据在哪、样本多大」，再决定信几分。", "r": false, "sub": null}, {"t": "我很少用「大家都这么说」来证明自己是对的。", "r": false, "sub": null}, {"t": "被指出错误时，我先看事实，而不是先护面子。", "r": false, "sub": null}, {"t": "我做判断时，不让情绪替我下结论，先看事实是什么。", "r": false, "sub": null}, {"t": "做决定前，我习惯先列一下「我依据的是什么」，而不是直接拍脑袋。", "r": false, "sub": null}, {"t": "对长期流传的说法，我愿意查它的出处，而不是照单全收。", "r": false, "sub": null}, {"t": "遇到两难，我会主动找反面材料，而不是直接站队。", "r": false, "sub": null}, {"t": "我承认自己有知识盲区，遇到不懂的会去补，而不是装懂。", "r": false, "sub": null}, {"t": "看到「权威说」三个字，我仍会追问「依据是什么」。", "r": false, "sub": null}, {"t": "我能看穿标题党，情绪化表达带不动我。", "r": false, "sub": null}, {"t": "我判断一句话有没有道理，只看内容本身，不看说话的人我喜不喜欢。", "r": false, "sub": null}, {"t": "复杂问题我会先把要素拆开看，再下结论。", "r": false, "sub": null}, {"t": "听到「内部消息」「独家」这类词，我会先怀疑是不是噱头。", "r": false, "sub": null}, {"t": "别人给我贴标签（比如「你就是懒」），我能想「这是他的看法，不是全部事实」。", "r": false, "sub": null}, {"t": "网上看到吓人的健康养生说法，我会查权威机构怎么说。", "r": false, "sub": null}, {"t": "我遇到不懂的事，第一反应是去弄明白，而不是装作知道。", "r": false, "sub": null}, {"t": "两个人吵起来，我能分别看两边各自说了什么，不急着站队。", "r": false, "sub": null}, {"t": "看到「震惊」「必看」这类标题，我不会被勾着点进去就信。", "r": false, "sub": null}, {"t": "别人夸我或捧我，我也能想想「这话有没有根据」，不全当真。", "r": false, "sub": null}, {"t": "做判断时，我会提醒自己「我可能只看到了一部分」。", "r": false, "sub": null}, {"t": "朋友转给我一个结论，我会先问「你从哪看到的」。", "r": false, "sub": null}, {"t": "遇到和自己已有想法相反的证据，我愿意看，而不是划走。", "r": false, "sub": null}, {"t": "我分得清「这件事我喜不喜欢」和「这件事对不对」。", "r": false, "sub": null}, {"t": "遇到争议话题，我会先搞清双方到底在争什么，再表态。", "r": false, "sub": null}, {"t": "我不会被「限时优惠」「再不买就没了」这种话催着冲动决定。", "r": false, "sub": null}, {"t": "别人说「大家都这么干」，我会想「大家都干不代表就是对的」。", "r": false, "sub": null}, {"t": "我愿意承认「我之前想错了」，并据此调整做法。", "r": false, "sub": null}], "emo": [{"t": "被否定或批评时，我能先稳住，而不是立刻反击或崩溃。", "r": false, "sub": null}, {"t": "我能用语言说清自己的感受，而不是用沉默或爆发来表达。", "r": false, "sub": null}, {"t": "情绪最上头时，我会先冷静下来，再开口或做决定。", "r": false, "sub": null}, {"t": "和伴侣/家人争吵后，我通常能主动复盘「到底在争什么」，而不是冷战到底。", "r": false, "sub": null}, {"t": "被误解时，我先弄清对方的误会从哪来，而不是马上炸。", "r": false, "sub": null}, {"t": "我在压力下也能管住脾气，只针对事情本身。", "r": false, "sub": null}, {"t": "我心里难受时，能分清是生气还是害怕，而不是只会说「我很烦」。", "r": false, "sub": null}, {"t": "遇到糟心事，我有一两个能让自己平静下来的办法。", "r": false, "sub": null}, {"t": "我很少因为一时上头，做出事后后悔的决定。", "r": false, "sub": null}, {"t": "被人当众否定，我能够先听完，再决定怎么回应。", "r": false, "sub": null}, {"t": "我对孩子的情绪爆发，通常能先接住再引导，而不是比他更激动。", "r": false, "sub": null}, {"t": "和别人发生冲突时，我分得清是「事情本身」还是「我对他的情绪」，不会把两者混为一谈。", "r": false, "sub": null}, {"t": "我避开在深夜、空腹或极累时做重要决定。", "r": false, "sub": null}, {"t": "我能接受「现在就是很糟糕」，允许自己先难受一会儿。", "r": false, "sub": null}, {"t": "无论被夸还是被批，我的情绪都稳得住。", "r": false, "sub": null}, {"t": "别人冲我发火，我尽量不立刻回怼，先让场面降降温。", "r": false, "sub": null}, {"t": "我心里堵得慌时，会找人说或写下来，而不是憋着发酵。", "r": false, "sub": null}, {"t": "我能在难过的时候，照样把该做的事做了。", "r": false, "sub": null}, {"t": "被人误会，我愿意等合适的时机把话说清楚，而不是当场翻脸。", "r": false, "sub": null}, {"t": "我生气时不摔东西、不消失，能想办法把情绪收住。", "r": false, "sub": null}, {"t": "和家人闹别扭，我能先递个台阶，不全冷战。", "r": false, "sub": null}, {"t": "遇到委屈，我能分清「该跟谁说」和「该自己消化」，不随便迁怒。", "r": false, "sub": null}, {"t": "我能在兴奋过头时，也提醒自己「别把话说太满」。", "r": false, "sub": null}, {"t": "别人情绪崩溃时，我能陪着，不被他带得也炸掉。", "r": false, "sub": null}, {"t": "我难过时不会去伤害自己或别人，能给自己一点时间。", "r": false, "sub": null}, {"t": "我能接受「有些事就是会让我不舒服」，不硬撑着假装没事。", "r": false, "sub": null}, {"t": "跟人争论到脸红，我懂得喊停，改天再聊。", "r": false, "sub": null}, {"t": "我能在被夸得飘飘然时，也记得自己几斤几两。", "r": false, "sub": null}, {"t": "遇到让人抓狂的事，我会先深呼吸几口，再决定怎么处理。", "r": false, "sub": null}, {"t": "我能在情绪过后，想清楚「刚才我到底在气什么」，而不只记着气。", "r": false, "sub": null}], "soc": [{"t": "争论时我愿意先理解对方立场，再表达自己。", "r": false, "sub": null}, {"t": "我尊重别人的边界，也能守住自己的边界。", "r": false, "sub": null}, {"t": "我承担自己的责任，遇事先从自己能做的部分入手。", "r": false, "sub": null}, {"t": "我能拒绝自己做不到的请求。", "r": false, "sub": null}, {"t": "在团队里，我分得清哪些事该我负责、哪些不归我。", "r": false, "sub": null}, {"t": "别人越界时，我能温和但明确地指出来。", "r": false, "sub": null}, {"t": "我听得进不同意见，愿意先理解对方。", "r": false, "sub": null}, {"t": "我能在维护关系的同时，也守住自己的原则。", "r": false, "sub": null}, {"t": "和长辈/上级有分歧，我能既尊重人又表达真实看法。", "r": false, "sub": null}, {"t": "我拒绝别人时，觉得这很正常，不会觉得自己亏欠了对方。", "r": false, "sub": null}, {"t": "别人没按我想的来，我能先想「可能只是角度不同」。", "r": false, "sub": null}, {"t": "合作中我既补位又让功，功劳归位清楚。", "r": false, "sub": null}, {"t": "公事按规则办，私怨私下消化，两不相扰。", "r": false, "sub": null}, {"t": "我愿意在冲突后主动修复关系，而不是等对方先低头。", "r": false, "sub": null}, {"t": "对弱者或意见相反者，我也给基本尊重和倾听。", "r": false, "sub": null}, {"t": "别人说话时，我不急着插嘴，等他说完再接。", "r": false, "sub": null}, {"t": "我能接受被拒绝，不会因此记恨对方。", "r": false, "sub": null}, {"t": "合作里出现分歧，我愿意各退一步找个折中。", "r": false, "sub": null}, {"t": "我能在提意见时，先肯定对方做得好的部分。", "r": false, "sub": null}, {"t": "别人帮了我，我会记着并找机会还，不觉得理所当然。", "r": false, "sub": null}, {"t": "我能在被人误会时，不急着辩解，先听他怎么想。", "r": false, "sub": null}, {"t": "我答应别人的事会记在心上，不会转头就忘。", "r": false, "sub": null}, {"t": "我能和合不来的人，也把事办妥，不把私人好恶带进公事。", "r": false, "sub": null}, {"t": "别人炫耀时，我能真心替他高兴，不酸也不比。", "r": false, "sub": null}, {"t": "我能在冲突后主动说「刚才我也有不对的地方」。", "r": false, "sub": null}, {"t": "我不会为了显得合群，就跟着嘲笑或排挤某个人。", "r": false, "sub": null}, {"t": "我能把「我想说的」和「对方听得进的」结合起来表达。", "r": false, "sub": null}, {"t": "别人处境难，我能搭把手，但不越界替他做主。", "r": false, "sub": null}, {"t": "我能在被冒犯时，先弄清是误会还是故意，再决定态度。", "r": false, "sub": null}, {"t": "我对待服务人员或陌生人，也愿意客气有分寸。", "r": false, "sub": null}], "naive": [{"t": "我常觉得「事情就该按我想的来」，不如意就烦躁。", "r": false, "sub": null}, {"t": "遇选择我倾向跟多数人或权威走，不太自己拿主意。", "r": false, "sub": null}, {"t": "一旦认定某个看法，我很难被说服去调整。", "r": false, "sub": null}, {"t": "我情绪上头做的决定，常常事后才发现代价比想的大。", "r": false, "sub": null}, {"t": "看到想要的东西，即使超预算我也先买了再说。", "r": false, "sub": null}, {"t": "在关系里，我更希望对方配合我的节奏，而不是我迁就。", "r": false, "sub": null}, {"t": "比起以后怎么样，我更想现在就开心。", "r": false, "sub": null}, {"t": "别人指出我的问题，我第一反应是解释或反驳。", "r": false, "sub": null}, {"t": "我觉得有些事就是绝对对错，没有讨论余地。", "r": false, "sub": null}, {"t": "明知道某做法效果不好，我还是按老办法来，因为改起来麻烦。", "r": false, "sub": null}, {"t": "我常认为「错的是这个世界/别人」，自己没什么要改的。", "r": false, "sub": null}, {"t": "被人反驳时，我第一反应是「不能输」，而不是去想「他说的到底有没有道理」。", "r": false, "sub": null}, {"t": "遇到麻烦，我习惯先找该怪谁，而不是先想怎么解决。", "r": false, "sub": null}, {"t": "我觉得按自己性子来最重要，后果可以以后再说。", "r": false, "sub": null}, {"t": "我很难承认「这次是我判断失误」，总找外部理由开脱。", "r": false, "sub": null}, {"t": "我常觉得「凭什么要我让着别人」，不愿吃亏。", "r": false, "sub": null}, {"t": "遇到压力，我更容易躲开，而不是面对。", "r": false, "sub": null}, {"t": "我常把「我心情不好」当成对别人发脾气的理由。", "r": false, "sub": null}, {"t": "别人的成功，我第一反应是「他运气好」，而不是想想人家做了啥。", "r": false, "sub": null}, {"t": "我常指望别人替我做决定，省得自己操心。", "r": false, "sub": null}, {"t": "我容易因为一句话就觉得「没人喜欢我」。", "r": false, "sub": null}, {"t": "我做错事被说，常觉得「你凭什么管我」。", "r": false, "sub": null}, {"t": "我没有特别想做的事，日子差不多就行。", "r": false, "sub": null}, {"t": "我常觉得规则是给别人定的，自己可以灵活点。", "r": false, "sub": null}, {"t": "别人对我好，我容易觉得「他肯定有别的目的」。", "r": false, "sub": null}, {"t": "我常把不顺心怪到「命不好」「运气差」上。", "r": false, "sub": null}, {"t": "我容易因为别人一句夸，就对他言听计从。", "r": false, "sub": null}, {"t": "我心里不舒服就刷手机或吃或睡，用这些压下去。", "r": false, "sub": null}, {"t": "我常想「以后再好好过」，但今天还是老样子。", "r": false, "sub": null}, {"t": "我遇到难事，常先想「有没有人能帮我搞定」，而不是自己上。", "r": false, "sub": null}]}};
+
+const SCALE = [
+  {v:'1', t:'几乎不符合', cls:'s1'},
+  {v:'2', t:'较少符合', cls:'s2'},
+  {v:'3', t:'说不清', cls:'s3'},
+  {v:'4', t:'较符合', cls:'s4'},
+  {v:'5', t:'非常符合', cls:'s5'}
+];
+const ADULT_DETAIL = {
+  levels: {
+    '儿童型': {
+      def:'心智反应以「自我中心 + 本能/情绪驱动」为主，面对冲突与责任时习惯外推或逃避。这不是年龄小，而是当下的反应模式偏原始。',
+      feat:'①认知：常把「我的看法」等同「事实」，遇到反对先护面子而非看证据；②情绪：情绪一上来容易被带着走，表达多为宣泄而非建设性沟通；③社交：规则与边界模糊，习惯让别人替自己承担后果。',
+      trap:'典型卡点：把不顺都归结为「别人/环境不对」，较难把「这是我自己的课题」接过来。',
+      next:'成长重点：先练「事实 vs 观点」的区分（认知），再练「暂停—复述—求证」（情绪），把「我的责任」从口号变成可执行的日常动作。'
+    },
+    '青年型': {
+      def:'已能承担部分责任、有了独立意识，但判断力易受情绪与从众影响，处在「想独立却还没站稳」的过渡阶段。',
+      feat:'①认知：能收集信息但容易只信一个来源、或被标题情绪带偏；②情绪：多数时候能自控，但被否定或压力下仍会冲动、回怼；③社交：知道要守规则，但遇到利益冲突时边界容易松动。',
+      trap:'典型卡点：「别人都这样」「我也不是故意的」式的合理化，让成长停在「知道自己不对但改不动」。',
+      next:'成长重点：建立独立判断（主动找反面材料再下结论），并把「暂停—复述—求证」变成冲突时的默认反应。'
+    },
+    '成人型': {
+      def:'已能稳定承责、守边界、尊重规则，是大多数健康成年人的心智坐标；特点是「靠得住」，但未必自发追求更高阶的自我约束与价值自觉。',
+      feat:'①认知：能区分事实与观点，面对冲突会核实而非立刻反驳；②情绪：多数情境下不被情绪左右，能建设性表达；③社交：清楚责任归位、协作定位，能坦然说不也不随意越界。',
+      trap:'典型卡点：满足于「不掉链子」，较少主动反思「我为什么这样反应」，容易在复杂局面里停在稳妥而非突破。',
+      next:'成长重点：从「稳重」走向「精进」——打磨自我约束的一致性（情绪峰值也稳），并把批判性思考从「防错」升级为「主动求真」。'
+    },
+    '精英型': {
+      def:'在认知与社交上已较成熟，能独立判断、有效协作；差距主要在「情绪/自我的高度一致性约束」上，偶有波动或知行不一。',
+      feat:'①认知：主动找多方信息、会拆要素；②情绪：总体稳定，但高压或触及自我时仍可能失稳；③社交：换位与边界都到位，是团队里的可靠节点。',
+      trap:'典型卡点：「道理都懂，关键时刻还是旧反应」，自我约束尚未内化为肌肉记忆。',
+      next:'成长重点：把「自律」从意志力变成习惯回路（高频微练习 + 复检），让成熟表现不依赖状态好坏。'
+    },
+    '智者型': {
+      def:'思维完善且自我约束到位，能在复杂与不确定中保持清醒与稳定；若已具价值自觉（知道为何而做、不为名利所役），可视为达者型。',
+      feat:'①认知：批判性思考成本能，证据优先；②情绪：长期稳定，被否定也不易动摇；③社交：既能坚守原则也能成全他人。',
+      trap:'典型卡点：高成熟度者易忽视「仍会被盲区绊倒」，需保持对自身局限的觉察。',
+      next:'成长重点：把成熟度转化为「可被他人借力」的价值自觉，从「自己稳」走向「带周围稳」。'
+    },
+    '达者型': {
+      def:'心智学框架中的高阶坐标：不仅自身成熟稳定，更能以价值自觉照亮与成全他人，是「成人型心智」自然外溢的状态。',
+      feat:'①认知：求真且包容异议；②情绪：定力深厚，逆境中仍清明；③社交：以规则与善意托住关系，不控制、不讨好。',
+      trap:'典型卡点：需警惕「以成熟之名行规训之实」，把他人成长空间压缩成服从。',
+      next:'成长重点：守住「成就他人而非雕塑他人」的边界，让成熟度成为他人的土壤而非天花板。'
+    }
+  },
+  dim: function(key, v){
+    const f = {
+      cog: function(v){
+        if(v<2.5) return '认知成熟度偏低：你容易把个人观点当作事实，遇到反对先护面子而非看证据，判断时较依赖单一信源或情绪。建议从「事实 vs 观点」的区分练起。';
+        if(v<3.5) return '认知成熟度中等：你能收集信息，但遇到复杂或情绪化议题时仍可能只信一个来源、或被标题带偏。可刻意练「先找反面材料再下结论」。';
+        if(v<4.3) return '认知成熟度较好：你能区分事实与看法、面对冲突会核实而非立刻反驳，是成人型心智的常见水平。继续保持「证据优先」。';
+        return '认知成熟度很高：批判性思考已成习惯，会主动拆要素、找多方信息。下一步把它从「防错」升级为「主动求真」，并留意自身盲区。';
+      },
+      emo: function(v){
+        if(v<2.5) return '情绪成熟度偏低：情绪上来容易被推着走，表达多为宣泄而非建设，被否定时波动明显。先练「暂停 3 秒」这个最小动作。';
+        if(v<3.5) return '情绪成熟度中等：多数情境能自控，但被否定或压力下仍会冲动、回怼。把「暂停—复述—求证」变成冲突时的默认反应。';
+        if(v<4.3) return '情绪成熟度较好：多数情境不被情绪左右、能建设性表达，是成人型心智的常见水平。';
+        return '情绪成熟度很高：长期稳定，被否定也不易动摇；留意高压或触及自我时是否仍有暗涌。';
+      },
+      soc: function(v){
+        if(v<2.5) return '社交成熟度偏低：规则与边界模糊，习惯让别人替自己扛后果，较难站到对方立场。先练「置换视角」。';
+        if(v<3.5) return '社交成熟度中等：知道守规则，但利益冲突时边界易松动、协作定位偶有模糊。';
+        if(v<4.3) return '社交成熟度较好：责任归位清楚、能协作也能坦然说不，是成人型心智的常见水平。';
+        return '社交成熟度很高：换位与边界都到位，是他人可倚靠的节点。';
+      },
+      naive: function(v){
+        if(v<2.5) return '幼稚特征偏低（好）：任性 / 盲从 / 偏执倾向不重，这是成熟度的加分项；保持觉察即可。';
+        if(v<3.5) return '幼稚特征中等：偶有任性、随大流或认死理的时刻，但未形成稳定模式；留意高频出现的场景。';
+        return '幼稚特征偏高（需警惕）：存在较明显的「成年幼稚病」特征（任性 / 盲从 / 偏执），它会在关键时刻拉低你的成熟度，建议优先觉察这三处并专项练习。';
+      }
+    };
+    return (f[key]||f.cog)(v);
+  },
+  weak: {
+    social:'【社交成熟度 · 相对短板】<br>典型表现：容易从自己视角看问题、在规则与边界上含糊，协作时责任归位不清或不敢坦然说不。<br><strong>专项练习（置换视角）</strong>：遇到一次冲突，先站到对方立场把「他的诉求 / 顾虑」写出来，再回应；补「责任归位、协作定位、补位不越界、坦然说不」四句话，每次冲突后对照。',
+    indep:'【独立人格（去盲从 / 偏执）· 相对短板】<br>典型表现：偶尔仍倚赖他人意见做决定，或对认定看法调整门槛高，较难被说服。<br><strong>专项练习（可被说服的肌肉）</strong>：每周刻意找一次「让我改主意」的信息，认真读完并写下「它说服我的哪一点」；遇到认死理时，先问自己「我是在求真，还是在护我的立场」。',
+    emoStable:'【情绪稳定 · 相对短板】<br>典型表现：情绪上头容易被推着走，被否定时偶有波动，常在情绪峰值做决定而后悔。<br><strong>专项练习（暂停—复述—求证）</strong>：停 3 秒 → 复述对方的话确认听懂 → 自问「这是事实，还是我的情绪在驱动」；约定「情绪峰值不做决定」，给冲突留一夜缓冲。',
+    crit:'【批判性思考 · 相对短板】<br>典型表现：遇冲突易先反驳或只信单一信源，较少主动找反面材料。<br><strong>专项练习（拼板思维）</strong>：下判断前，先列「支持我的证据」与「反对我的证据」各至少一条，再决定信几分；遇到惊人结论先问「证据在哪、样本多大」。'
+  }
+};
+function adultBand(level, comp){
+  const v=comp.toFixed(2);
+  const B={
+    '儿童型': comp<2.0
+      ? '你落在儿童型的较深区（综合成熟度 '+v+'＜2.0）：反射式反应占主导，遇事先情绪、先外推，承责与独立判断几乎还没起步。这是起点坐标——从「事实 vs 观点」的最小区分练起最有效。'
+      : '你刚触碰儿童型区间（综合成熟度 '+v+'，2.0–2.5）：已有零星自觉，但多数时刻仍被本能和情绪带着走。重点是把「偶尔做对」变成「常常做对」。',
+    '青年型': comp<2.9
+      ? '你处在青年型的「初离儿童」段（综合成熟度 '+v+'，2.5–2.9）：独立意识刚发芽，但判断高度依赖情绪和从众，常被「别人都这样」带偏。先建独立判断的肌肉。'
+      : comp<3.2
+      ? '你处在青年型的「摇摆期」（综合成熟度 '+v+'，2.9–3.2）：能承一部分责，但被否定或压力下容易退回冲动、回怼。把「暂停—复述—求证」变成默认反应是关键。'
+      : '你处在青年型的「临门一脚」段（综合成熟度 '+v+'，3.2–3.5）：已接近成人门槛，差的往往是「情绪峰值也稳」和「边界不含糊」。补这两块就能跨阶。',
+    '成人型': comp<3.8
+      ? '你刚站稳成人型（综合成熟度 '+v+'，3.5–3.8）：能承责守边界，但还在「不掉链子」的阶段，主动反思不多。从「稳重」走向「精进」就能拉开差距。'
+      : comp<4.0
+      ? '你是稳健的成人型（综合成熟度 '+v+'，3.8–4.0）：多数情境可靠、能建设性表达，是团队里让人放心的角色。下一步把自我约束的一致性磨到「情绪峰值也稳」。'
+      : '你已是成人型的「临精英」段（综合成熟度 '+v+'，4.0–4.3）：成熟度接近精英门槛，差的通常是更细的一致性自律。再打磨自我约束，就能跨入精英型。',
+    '精英型': comp<4.5
+      ? '你是新晋精英型（综合成熟度 '+v+'，4.3–4.5）：认知与社交已成熟，能独立判断、有效协作；差距主要在情绪 / 自我的高度一致约束上。把自律变习惯回路是关键。'
+      : '你是准智者型（综合成熟度 '+v+'，4.5–4.6）：思维完善且总体稳定，离「智者型」只差情绪的长期一致性或价值自觉。打磨自我约束即可跨阶。',
+    '智者型': '你是智者型（综合成熟度 '+v+'）：思维完善、自我约束到位，在复杂不确定中能保持清醒稳定。若已具价值自觉（为何而做、不为名利所役），你已站在达者型的门口。',
+    '达者型': '达者型是心智学框架的高阶坐标：不仅自身成熟稳定，更能以价值自觉照亮与成全他人。把它作为可望亦可即的方向，而非终点标签。'
+  };
+  return B[level] || '';
+}
+function adultProfile(m){
+  const arr=[['认知',m.cog],['情绪',m.emo],['社交',m.soc]].sort((a,b)=>b[1]-a[1]);
+  const top=arr[0], bot=arr[2], span=top[1]-bot[1];
+  if(span<=0.4 && m.cog>=3.5) return ['均衡稳健型', '你的认知 / 情绪 / 社交三要素差距很小（≤0.4），整体齐头并进、没有塌陷，这是最稳的画像。保持均衡，再整体向上抬。'];
+  if(bot[0]==='情绪') return ['情绪变量型', '你的认知与社交都不弱，但情绪稳定性是最大变量——平时稳，一被否定或上头就波动。重点练「暂停—复述—求证」，把情绪峰值管住。'];
+  if(bot[0]==='社交') return ['独行思辨型', '你独立思考、事实清楚，但规则与边界、换位协作是弱环，容易「自己想得清、和别人处不顺」。练置换视角，把协作定位补齐。'];
+  if(top[0]==='认知') return ['思辨领先型', '你的认知成熟度跑在最前，看事清楚、会核实；但情绪或社交相对滞后，容易「想得透、处得磕」。先把领先项稳住，再补最弱项。'];
+  if(top[0]==='社交') return ['协作润类型', '你的社交成熟度最突出，是团队里让人安心的人；但要注意别用「好相处」掩盖真实边界——协作 ≠ 讨好。'];
+  return ['均衡发展型', '三要素各有高低但都在成长区间，按最弱项逐步补齐即可。'];
+}
+function shuffle(a){const b=a.slice();for(let i=b.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[b[i],b[j]]=[b[j],b[i]];}return b;}
+let QN = 0;
+function render(){
+  const form = document.getElementById('form');
+  form.innerHTML = '';
+  CFG.dims.forEach(dim=>{
+    const gt = document.createElement('div'); gt.className='group-title';
+    gt.innerHTML = dim.name; form.appendChild(gt);
+    if(!dim.good){ const h=document.createElement('div'); h.className='opt-rev-hint';
+      h.textContent='方向提示 · 本维度「分越高＝该项越弱」；卡片与雷达图均直接显示原始得分，系统不做反向换算。'; form.appendChild(h); }
+    const picked = shuffle(CFG.pool[dim.key]).slice(0, CFG.drawPerDim);
+    picked.forEach(item=>{
+      const qd=document.createElement('div'); qd.className='q';
+      const lab=document.createElement('div'); lab.className='label';
+      lab.textContent = (++QN) + '. ' + item.t;
+      if(item.r){ const s=document.createElement('span'); s.className='rev-tag'; s.textContent='反向'; lab.appendChild(s); }
+      qd.appendChild(lab);
+      const opts=document.createElement('div'); opts.className='opts';
+      opts.dataset.dim = dim.key; if(item.r) opts.dataset.flip='1'; if(item.sub) opts.dataset.sub=item.sub;
+      SCALE.forEach(it=>{
+        const l=document.createElement('label'); l.className='opt-'+it.cls;
+        l.innerHTML='<input type="radio" name="q'+QN+'" value="'+it.v+'"><span class="n">'+it.v+'</span><span class="t">'+it.t+'</span>';
+        opts.appendChild(l);
+      });
+      qd.appendChild(opts); form.appendChild(qd);
+    });
+  });
+  if(CFG.resultType==='work'){
+    const p=document.createElement('div'); p.className='probe';
+    p.innerHTML='<p>自敛校准（区分真自敛 / 伪谦和，勾选符合你的情况；可不选）：</p>'+
+      '<label><input type="checkbox" id="p1">说完"没关系、都可以"之后，我回家心里还有事，得靠意志力维持"好相处"。</label>'+
+      '<label><input type="checkbox" id="p2">别人反复试探我的底线，却从没收到过我清晰的信号。</label>';
+    form.appendChild(p);
+  }
+  if(CFG.resultType==='org'){
+    const p2=document.createElement('div'); p2.className='probe';
+    p2.innerHTML='<p>红线确认（必勾）：本诊断用于组织心智健康度评估，<b>不用于将低薪/过劳/欠社保等正当劳资诉求柔化为「不同频/量场共识」</b>。若你的真实关切在此，请走劳动权益/集体协商通道。</p>'+
+      '<label><input type="checkbox" id="redline"> 我确认以上，并理解六层级只作组织聚合估算、不贴个人标签、不进人事档案（ce35）。</label>';
+    form.appendChild(p2);
+  }
+}
+function getScores(){
+  const byDim={}; const bySub={}; CFG.dims.forEach(d=>{byDim[d.key]=[];});
+  let missing=0;
+  document.querySelectorAll('.opts').forEach(box=>{
+    const el=box.querySelector('input:checked');
+    if(!el){ missing++; return; }
+    const dim=box.dataset.dim; const v=+el.value; const flip=box.dataset.flip==='1';
+    byDim[dim].push(flip?6-v:v);
+    if(box.dataset.sub){(bySub[box.dataset.sub]=bySub[box.dataset.sub]||[]).push(flip?6-v:v);}
+  });
+  for(const d of CFG.dims){ if(byDim[d.key].length < CFG.drawPerDim) return {missing: missing||1}; }
+  return {byDim, bySub, missing:0};
+}
+function mean(a){return a.reduce((x,y)=>x+y,0)/a.length;}
+function effMeans(byDim){ const m={}; CFG.dims.forEach(d=>{ m[d.key]=mean(byDim[d.key]); }); return m; }
+function tag(v){ return 'metric ' + (v>=4?'good':(v<3?'warn':'')); }
+function drawRadar(labels, vals, theme, weakSet, revSet){
+  const cx=250, cy=172, R=100, n=labels.length;
+  const pt=(i,r)=>{const a=-Math.PI/2+i*2*Math.PI/n;return [cx+r*Math.cos(a), cy+r*Math.sin(a)];};
+  let s='';
+  for(let ring=1;ring<=5;ring++){const p=[];for(let i=0;i<n;i++){const[x,y]=pt(i,ring/5*R);p.push(x.toFixed(1)+','+y.toFixed(1));}s+='<polygon points="'+p.join(' ')+'" fill="none" stroke="#dcdcd6" stroke-width="0.5"/>';}
+  for(let i=0;i<n;i++){const[x,y]=pt(i,R);s+='<line x1="'+x.toFixed(1)+'" y1="'+y.toFixed(1)+'" x2="'+cx+'" y2="'+cy+'" stroke="#dcdcd6" stroke-width="0.5"/>';}
+  const fill=theme==='red'?'rgba(192,73,43,0.18)':'rgba(24,95,165,0.22)';
+  const stroke=theme==='red'?'#C0492B':'#185FA5';
+  const dp=[];for(let i=0;i<n;i++){const[x,y]=pt(i,vals[i]/5*R);dp.push(x.toFixed(1)+','+y.toFixed(1));}
+  s+='<polygon points="'+dp.join(' ')+'" fill="'+fill+'" stroke="'+stroke+'" stroke-width="1.8"/>';
+  for(let i=0;i<n;i++){const[x,y]=pt(i,vals[i]/5*R);s+='<circle cx="'+x.toFixed(1)+'" cy="'+y.toFixed(1)+'" r="3" fill="'+stroke+'"/>';}
+  for(let i=0;i<n;i++){const a=-Math.PI/2+i*2*Math.PI/n;const ca=Math.cos(a),sa=Math.sin(a);const[x,y]=pt(i,R+20);const anchor=Math.abs(ca)<0.3?'middle':(ca>0?'start':'end');const dy=sa<-0.5?-5:(sa>0.5?7:0);const isRev=!!(revSet&&revSet.has(i));const col=(weakSet&&weakSet.has(i))?'#854F0B':(isRev?'#8a6d3b':'#2C2C2A');s+='<text x="'+x.toFixed(1)+'" y="'+(y+dy).toFixed(1)+'" text-anchor="'+anchor+'" font-size="12" fill="'+col+'">'+labels[i]+' '+vals[i].toFixed(2)+(isRev?' ↓':'')+'</text>';}
+  document.getElementById('radar').innerHTML=s;
+}
+
+/* 风险条：把 good:false 的「警示维度」从雷达移出，单独以红→绿渐变条呈现（越低越好） */
+function drawRiskBar(d, v){
+  const x0=20, x1=300, y=34, W=x1-x0;
+  const pos = x0 + (Math.max(1,Math.min(5,v))-1)/4*W;
+  const gid='rg_'+d.key;
+  let s='<svg viewBox="0 0 320 72" width="100%" style="max-width:360px;display:block;margin:4px auto 0;">';
+  s+='<defs><linearGradient id="'+gid+'" x1="0" x2="1"><stop offset="0" stop-color="#0F6E56"/><stop offset=".6" stop-color="#E0A800"/><stop offset="1" stop-color="#C0492B"/></linearGradient></defs>';
+  s+='<rect x="'+x0+'" y="'+y+'" width="'+W+'" height="12" rx="6" fill="url(#'+gid+')"/>';
+  s+='<text x="'+x0+'" y="'+(y+30)+'" font-size="10" fill="#6b6b66">1 低（好）</text>';
+  s+='<text x="'+x1+'" y="'+(y+30)+'" font-size="10" fill="#6b6b66" text-anchor="end">5 高（警示）</text>';
+  s+='<line x1="'+pos.toFixed(1)+'" y1="'+(y-8)+'" x2="'+pos.toFixed(1)+'" y2="'+(y+20)+'" stroke="#2C2C2A" stroke-width="2"/>';
+  s+='<circle cx="'+pos.toFixed(1)+'" cy="'+y+'" r="6" fill="#2C2C2A"/>';
+  s+='<text x="'+pos.toFixed(1)+'" y="'+(y-13)+'" font-size="13" font-weight="700" fill="#2C2C2A" text-anchor="middle">'+d.short+' '+v.toFixed(2)+'</text>';
+  s+='</svg>';
+  return s;
+}
+function renderRiskZone(warnDims, m){
+  const host=document.getElementById('riskZone');
+  if(!host) return;
+  if(!warnDims.length){ host.innerHTML=''; host.style.display='none'; return; }
+  host.style.display='block';
+  host.innerHTML = '<div class="rz-title">⚠ 风险维度（分高＝越需警惕；越低越好）</div>' +
+    warnDims.map(d=>drawRiskBar(d, m[d.key])).join('');
+}
+
+function submit(){
+  if(CFG.resultType==='org'){
+    const rl=document.getElementById('redline');
+    if(!rl || !rl.checked){ const h=document.getElementById('hint'); h.textContent='请先勾选红线确认，再查看结果。'; h.scrollIntoView({behavior:'smooth',block:'center'}); return; }
+  }
+  const sc=getScores();
+  const hint=document.getElementById('hint');
+  if(sc.missing){ hint.textContent='还有题未完成，请全部作答后再看结果。'; hint.scrollIntoView({behavior:'smooth',block:'center'}); return; }
+  hint.textContent='';
+  const m=effMeans(sc.byDim);
+  if(CFG.resultType==='adult') renderAdult(m);
+  else if(CFG.resultType==='ylevel') renderYlevel(m);
+  else if(CFG.resultType==='yfreq') renderYfreq(m);
+  else if(CFG.resultType==='work') renderWork(m, sc.bySub);
+  else if(CFG.resultType==='fourwu') renderFourwu(m);
+  else if(CFG.resultType==='org') renderOrg(m);
+  else if(CFG.resultType==='boss') renderBoss(m);
+  document.getElementById('result').style.display='block';
+  document.getElementById('result').scrollIntoView({behavior:'smooth'});
+}
+function resetAll(){ document.querySelectorAll('input').forEach(r=>r.checked=false); document.getElementById('result').style.display='none'; document.getElementById('hint').textContent=''; window.scrollTo({top:0,behavior:'smooth'}); }
+
+/* ---------- adult ---------- */
+function renderAdult(m){
+  const comp=(m.cog+m.emo+m.soc)/3; let level='';
+  if(m.naive>=3.5){ level=comp<2.5?'儿童型':(comp<3.5?'青年型':'成人型'); }
+  else if(comp>=4.6&&m.emo>=4.5){ level='智者型'; }
+  else if(comp>=4.3){ level='精英型'; }
+  else if(comp>=3.5){ level='成人型'; }
+  else if(comp>=2.5){ level='青年型'; }
+  else { level='儿童型'; }
+  document.getElementById('resLevel').textContent=level;
+  // 详细层级解读（结构化）
+  const lv = ADULT_DETAIL.levels[level] || ADULT_DETAIL.levels['成人型'];
+  const naiveNote = m.naive>=3.5
+    ? '附加提醒：你的「幼稚特征」偏高（'+m.naive.toFixed(2)+'），存在较明显的成年幼稚病信号（任性 / 盲从 / 偏执），建议优先觉察这三处，再向上走。'
+    : '附加提醒：你的「幼稚特征」偏低（'+m.naive.toFixed(2)+'），任性 / 盲从 / 偏执倾向不重，是成熟度的加分项。';
+  const band = adultBand(level, comp);
+  const prof = adultProfile(m);
+  document.getElementById('resNote').innerHTML =
+    '<strong>这一阶是什么</strong><br>'+lv.def+'<br><br>'+
+    '<strong>你在这阶的哪个位置（综合成熟度 '+comp.toFixed(2)+'）</strong><br>'+band+'<br><br>'+
+    '<strong>你的心智画像（'+prof[0]+'）</strong><br>'+prof[1]+'<br><br>'+
+    '<strong>典型心智特征</strong><br>'+lv.feat+'<br><br>'+
+    '<strong>下一步重点</strong><br>'+lv.next+'<br><br>'+
+    naiveNote;
+  const dims=CFG.dims; let met='';
+  dims.forEach(d=>{ const v=m[d.key]; const cls=d.good?tag(v):(v>=3?'metric warn':'metric good');
+    met+='<div class="'+cls+'"><div class="m-label">'+d.short+'</div><div class="m-val">'+v.toFixed(2)+'</div></div>'; });
+  document.getElementById('metrics').innerHTML=met;
+  // 雷达：仅画 good:true 的成熟度维度（三轴同向，越大越成熟）；幼稚特征等警示维度移为下方风险条
+  const goodDims=dims.filter(d=>d.good);
+  const warnDims=dims.filter(d=>!d.good);
+  drawRadar(goodDims.map(d=>d.short), goodDims.map(d=>m[d.key]), 'blue', new Set(), new Set());
+  const rn=document.getElementById('radarNote');
+  if(rn){ rn.textContent='雷达＝成熟度三轴（越靠外＝越成熟）；「幼稚特征」已移为下方独立风险条。'; rn.style.display='block'; }
+  renderRiskZone(warnDims, m);
+  // 三要素逐维解读
+  const triHtml =
+    '<strong>① 认知成熟度 '+m.cog.toFixed(2)+'</strong><br>'+ADULT_DETAIL.dim('cog',m.cog)+'<br><br>'+
+    '<strong>② 情绪成熟度 '+m.emo.toFixed(2)+'</strong><br>'+ADULT_DETAIL.dim('emo',m.emo)+'<br><br>'+
+    '<strong>③ 社交成熟度 '+m.soc.toFixed(2)+'</strong><br>'+ADULT_DETAIL.dim('soc',m.soc)+'<br><br>'+
+    '<strong>④ 幼稚特征（风险维，越低越好）'+m.naive.toFixed(2)+'</strong><br>'+ADULT_DETAIL.dim('naive',m.naive);
+  document.getElementById('tri').innerHTML = triHtml;
+  // 相对短板排序（弱→强，取前三做详解）
+  const ax={crit:m.cog,emoStable:m.emo,social:m.soc,indep:5-m.naive};
+  const order=Object.entries(ax).sort((a,b)=>a[1]-b[1]); const weak=order[0][0];
+  let weakHtml='<strong>相对短板排序（弱 → 强）</strong><br><br>';
+  order.slice(0,3).forEach(([k],i)=>{ weakHtml += (i+1)+'. '+ADULT_DETAIL.weak[k]+'<br><br>'; });
+  document.getElementById('weak').innerHTML = weakHtml;
+  // 详细成长方案
+  document.getElementById('advice').innerHTML =
+    '<strong>给你的详细成长方案</strong><br><br>'+
+    '一、最弱项专项练习<br>'+ADULT_DETAIL.weak[weak]+'<br><br>'+
+    '二、通用成长方向（指向达者）<br>每天用「意理念三基石（平衡 / 情感 / 控制）」做一次自检：「今天哪块失衡？」把外部能力内化为自我发现，而不是又一项待办。<br><br>'+
+    '三、阶段目标与复检<br>· 第 1–2 周：只练最弱项的那个最小动作，不求完美，求「发生了」；<br>· 第 3–4 周：把练习从「刻意」变成「默认反应」，并记录 2–3 个具体事例；<br>· 复检：1–2 周后重测，看分数变化是否由具体事例支撑，而非自我感觉。若最弱项已升，再攻下一个短板。';
+}
+
+/* ---------- ylevel ---------- */
+function renderYlevel(m){
+  const names=CFG.dims.map(d=>d.short);
+  let idx=0; for(let i=0;i<names.length;i++){ if(m[CFG.dims[i].key]>=3.5) idx=i; else break; }
+  const L=names[idx];
+  document.getElementById('resLevel').textContent=L+'（第 '+(idx+1)+' 层 / 共 5 层）';
+  document.getElementById('resNote').textContent='你当前落在「'+L+'」。该层均分 '+m[CFG.dims[idx].key].toFixed(2)+'（≥3.5 视为达标）。';
+  let met=''; CFG.dims.forEach(d=>{ const v=m[d.key]; met+='<div class="'+tag(v)+'"><div class="m-label">'+d.short+'</div><div class="m-val">'+v.toFixed(2)+'</div></div>'; });
+  document.getElementById('metrics').innerHTML=met;
+  const vals=CFG.dims.map(d=>m[d.key]);
+  drawRadar(names, vals, 'blue', new Set());
+  const weakIdx=vals.indexOf(Math.min(...vals)); const weakL=names[weakIdx];
+  document.getElementById('ageNote').textContent='年龄脱敏提醒：心智层级与生理年龄、性别、学历无关。12 岁也可能是银牌级，18 岁也可能在新星级——这只是你此刻的成长坐标，不是终身判词，更不是标签。';
+  const path=['新星级/潜力级 → 重点「摆脱反射思维」：被激怒或想立刻反驳时，先停 3 秒、复述对方的话、自问「这是事实还是我的情绪在驱动」。',
+    '新星级/潜力级 → 重点「摆脱反射思维」：练习在情绪上头时不做决定；多用"我观察到……我感到……"描述，逐步把反射换成觉察。',
+    '铜牌级 → 重点「拼板置换」：主动找一次与己见相反的信息，练「可被说服」的肌肉；做选择前写出自己的理由。',
+    '银牌级 → 重点「情绪省察期 / 自我回归期」：冲突后给自己一段复盘时间，写下「我承担了什么、下次改什么」。',
+    '金牌级 → 重点「价值重塑」：每天用「意理念三基石（平衡/情感/控制）」自检，把外部评价内化为自我认知。'][idx];
+  document.getElementById('advice').textContent=path+'\n\n相对最需留意的是「'+weakL+'」（均分 '+vals[weakIdx].toFixed(2)+'）——它不是缺陷，而是你下一步可以专门练习的那一阶。挑最弱的一项先练，比同时追五层更稳。';
+}
+
+/* ---------- yfreq ---------- */
+function renderYfreq(m){
+  const rev=m; // already flipped in getScores
+  const dims=CFG.dims; const vals=dims.map(d=>m[d.key]);
+  const total=vals.reduce((a,b)=>a+b,0);
+  const band= total<=57?{n:'低频段（待校）',note:'总分偏低，提示近三月多项能力偏弱；但更该看雷达图的「凹陷」在哪，针对性补练即可。',c:''}:
+              total<=95?{n:'中频段（待校）',note:'总分居中，多数能力在发展中；留意是否有单维明显凹陷——那才是优先发力点。',c:''}:
+                         {n:'高频段（待校）',note:'总分较高，整体状态不错；可继续打磨最弱维，向更稳的自我约束走。',c:'good'};
+  document.getElementById('resLevel').textContent=band.n;
+  document.getElementById('resLevel').style.color=band.c==='good'?'#0F6E56':'#185FA5';
+  document.getElementById('resNote').textContent=band.note;
+  const idx=vals.map((v,i)=>i).sort((a,b)=>vals[a]-vals[b]);
+  let ws=idx.filter(i=>vals[i]<3.0); if(ws.length===0) ws=[idx[0]]; if(ws.length>2) ws=ws.slice(0,2);
+  const weakSet=new Set(ws);
+  let met=''; dims.forEach((d,i)=>{ const cls=vals[i]>=4?'metric good':(vals[i]<3?'metric warn':''); met+='<div class="'+cls+'"><div class="m-label">'+d.short+'</div><div class="m-val">'+vals[i].toFixed(2)+'</div></div>'; });
+  met+='<div class="metric '+(band.c==='good'?'good':'')+'"><div class="m-label">总分(25–125)</div><div class="m-val">'+total+'</div></div>';
+  document.getElementById('metrics').innerHTML=met;
+  drawRadar(dims.map(d=>d.short), vals, 'blue', weakSet);
+  document.getElementById('tri').textContent='维度分析优先：雷达图的「凹陷」比总分更能定位短板——先补最弱维，再整体提升。';
+  const PATH=['情绪省察期 / 自我回归期：练「先命名情绪，再回应」，不在情绪峰值做决定；每天做一次情绪复盘。',
+    '互敬 / 边界 / 自敛：明确表达边界，既尊重他人也不让他人越界自己；练习说「我不想，但谢谢」。',
+    '行为描述法 / 三转向：用「只说发生了什么」替代评判，从说服转向聆听；亲子对话先描述事实再表达需求。',
+    '拼板 / 置换 / 信息甄别：主动找对立信息，练「可被说服」的肌肉；转发前先问「来源可靠吗」。',
+    '后果自负 / 体验匮乏 / 自敛：让后果自然落地，体验「不做 = 自己承担」；用微小承诺练持续感。'];
+  let w=''; ws.forEach(i=>{ w+='<div class="w-item" style="background:#fdf6ec;border:1px solid #f0e2cf;border-radius:8px;padding:10px 12px;margin-bottom:8px;"><b>需重点关注：'+dims[i].short+'（'+vals[i].toFixed(2)+'）</b><br>'+PATH[i]+'</div>'; });
+  if(ws.length===0) w='<div class="w-item">五项均在健康区间，保持即可。</div>';
+  document.getElementById('weak').innerHTML=w;
+  document.getElementById('path').textContent='成长路径建议（按最弱维映射）：\n'+ws.map(i=>'· '+dims[i].short+' → '+PATH[i]).join('\n');
+}
+
+/* ---------- work ---------- */
+function renderWork(m, bySub){
+  const ab={resp:m.resp, coop:m.coop, restr:m.restr, grow:m.grow};
+  // 伪谦和校准
+  const p1=document.getElementById('p1').checked, p2=document.getElementById('p2').checked;
+  const hit=(p1?1:0)+(p2?1:0); let restr=ab.restr, fake=false;
+  if(hit>0 && ab.restr>=3.5){ restr=Math.max(1, ab.restr-0.8*hit); fake=true; }
+  const cog=bySub&&bySub.cog?mean(bySub.cog):( (m.resp+m.coop+m.restr+m.grow)/4 );
+  const emo=bySub&&bySub.emo?mean(bySub.emo):ab.restr;
+  const soc=bySub&&bySub.soc?mean(bySub.soc):( (m.resp+m.coop)/2 );
+  const abilities=[{k:'resp',n:'能承责',v:ab.resp},{k:'coop',n:'能协作',v:ab.coop},{k:'restr',n:'能自敛',v:restr},{k:'grow',n:'能成长',v:ab.grow}].sort((a,b)=>a.v-b.v);
+  const weak=abilities[0], strong=abilities[3];
+  const avg=(ab.resp+ab.coop+restr+ab.grow)/4;
+  let met=''; abilities.forEach(a=>{ const v=a.k==='restr'?restr:a.v; const cls=a.k==='restr'?(fake?'metric warn':tag(v)):tag(v); met+='<div class="'+cls+'"><div class="m-label">'+a.n+'</div><div class="m-val">'+v.toFixed(2)+(a.k==='restr'&&fake?'*':'')+'</div></div>'; });
+  document.getElementById('metrics').innerHTML=met;
+  drawRadar(['能承责','能协作','能自敛','能成长'], [ab.resp,ab.coop,restr,ab.grow], 'blue', new Set());
+  document.getElementById('resLevel').textContent='相对短板：'+weak.n;
+  let note='四能力均分 '+avg.toFixed(2)+'，最稳的是「'+strong.n+'」（'+strong.v.toFixed(1)+'），最弱的是「'+weak.n+'」（'+weak.v.toFixed(1)+'）。';
+  note+= avg>=4?'整体较稳，补齐最弱一项即可继续往上走。':(avg>=3?'整体在中段，先把最弱一项练起来，不必四面开花。':'多项偏低时，请先确认这是能力缺口，还是权责不清、管理失当等结构成因。');
+  document.getElementById('resNote').textContent=note;
+  const fw=document.getElementById('fakeWarn');
+  if(fake){ fw.style.display='block'; fw.innerHTML='<b>真自敛 vs 伪谦和：你的「能自敛」已被下调</b>（自评 '+ab.restr.toFixed(1)+' → 校准 '+restr.toFixed(1)+'）。你在自敛题上给了高分，但同时命中 '+hit+' 项伪谦和信号——这是靠意志力维持的"好相处"表演，不是内在收敛：装一天没事、一周累、一个月崩。<b>没有边界的老好人不是成熟，是软弱。</b>请把「能自敛」按校准分看待，优先做说"不"练习。'; }
+  else fw.style.display='none';
+  const dims=[{k:'cog',n:'认知成熟度（摆脱反射思维）',v:cog},{k:'emo',n:'情绪成熟度（不被情绪左右）',v:emo},{k:'soc',n:'社交成熟度（尊重规则与边界）',v:soc}].sort((a,b)=>a.v-b.v);
+  document.getElementById('dimBox').style.display='grid';
+  document.getElementById('dimCog').textContent=cog.toFixed(2);
+  document.getElementById('dimEmo').textContent=emo.toFixed(2);
+  document.getElementById('dimSoc').textContent=soc.toFixed(2);
+  ['dimCogBox','dimEmoBox','dimSocBox'].forEach(id=>document.getElementById(id).className='dim');
+  document.getElementById({cog:'dimCogBox',emo:'dimEmoBox',soc:'dimSocBox'}[dims[0].k]).className='dim weak';
+  const DIM_WHY={cog:'你的低分集中在"先问清对方要什么""反驳前先过一遍""分清事实与观点""改掉引发错误的那个反应"这类题——典型的反射思维未摆脱。',
+    emo:'你的低分集中在"被指出失误先辩解""把情绪当原则去较劲""批评后只剩情绪"这类题——卡点在情绪成熟度。',
+    soc:'你的低分集中在"责任归位""协作定位""补位不越界""坦然说不"这类题——卡点在社交成熟度。'};
+  const DIM_DRILL={soc:'【协作边界练习（社交成熟度）】挑一件正在推的事，用三句话写下来：① 这个共同目标是什么；② 我负责的那一段从哪到哪；③ 哪一段明确不是我的，我打算怎么说清。本周至少在一次会上把第 ②③ 条讲出口。',
+    cog:'【反射阻断练习（认知成熟度）】本周每次被一句话点着，先停 3 秒，问两句：「他说的是什么？」「我想的是什么？」——把两者分开写下来，再决定回应。',
+    emo:'【情绪省察练习（情绪成熟度）】每天收工前记一条：今天哪句话/哪件事让我起火，情绪的来源是什么。不在情绪峰值回消息、不做重大决定。'};
+  const ABILITY_DRILL={restr:'【最小必要表达练习（能自敛）】本周找一次坦然说"不"或表达异议的机会：一句话讲清"我不做什么 / 我不同意哪点 + 我能做什么"，说完不解释、不道歉、不事后补偿。',
+    grow:'【修识转化练习（能成长）】挑最近一次错误，别只补结果：写下"当时我的第一反应是什么"，再写"下次换成什么反应"，并指定一个触发场景去替换它。',
+    resp:'【责任归位练习（能承责）】下一次出问题时，先说"这部分是我的 + 我的补救动作是什么"，把这句放在解释外部原因之前。',
+    coop:'【位置澄清练习（能协作）】在一个共同目标里明确自己那一段：既不抢别人的活，也不缩在后面。遇分歧先问对方要什么，再谈自己怎么做。'};
+  document.getElementById('dimConc').innerHTML='<b>我主要卡在哪一维度 → '+dims[0].n+'</b>（'+dims[0].v.toFixed(2)+'）<br>'+DIM_WHY[dims[0].k]+'<br><span style="color:#6b6b66;font-size:12.5px;">另两维：'+dims[1].n.split('（')[0]+' '+dims[1].v.toFixed(2)+'、'+dims[2].n.split('（')[0]+' '+dims[2].v.toFixed(2)+'。只取一个主要结论，先练一处。</span>';
+  const drills=[DIM_DRILL[dims[0].k]]; const abKey=weak.k; const dup=(abKey==='resp'||abKey==='coop')&&dims[0].k==='soc';
+  if(!dup) drills.push(ABILITY_DRILL[abKey]);
+  document.getElementById('advice').textContent='本周补强练习（'+drills.length+' 项，够了）：\n\n'+drills.join('\n\n')+'\n\n复检：1–2 周后重测，看分数变化是否有具体事例支撑，并留意是否出现新的结构性或 PUA 信号。';
+}
+
+/* ---------- fourwu ---------- */
+function renderFourwu(m){
+  const dims=CFG.dims; const vals=dims.map(d=>m[d.key]);
+  const ranked=dims.map((d,i)=>({d:d.key,v:vals[i]})).sort((a,b)=>b.v-a.v);
+  const weakest=ranked.slice(0,2).map(r=>r.d); const maxV=ranked[0].v;
+  let level,note;
+  if(maxV>=4){ level='四无偏重 · 整体心智成长滞后较明显'; note='最弱维度为「'+DIMNAME(weakest[0])+'」'+(weakest[1]?'、'+DIMNAME(weakest[1]):'')+'。这是整体心智成长滞后的聚合表征，建议优先在下方五维发力点逐维补强；同时请确认无高风险信号。'; }
+  else if(maxV>=3){ level='四无初显 · 局部成长缺口'; note='相对偏弱在「'+DIMNAME(weakest[0])+'」'+(weakest[1]?'、'+DIMNAME(weakest[1]):'')+'。仍属成长阶段表征，非疾病标签，可针对弱维做成长练习。'; }
+  else { level='四无较弱 · 心智成长状态尚可'; note='四无各维均分偏低，整体心智成长状态尚可；可把五维工具当作日常素养持续打磨。'; }
+  document.getElementById('resLevel').textContent=level;
+  document.getElementById('resNote').textContent=note;
+  let met=''; const order=['study','social','life','value'];
+  order.forEach(k=>{ const v=m[k]; const cls=v>=3?'metric warn':'metric good'; met+='<div class="'+cls+'"><div class="m-label">'+DIMNAME(k)+'</div><div class="m-val">'+v.toFixed(2)+'</div><div style="font-size:11px;color:#8a8a83;margin-top:2px;">'+(v>=3?'需关注':'尚可')+'</div></div>'; });
+  document.getElementById('metrics').innerHTML=met;
+  drawRadar(order.map(k=>DIMNAME(k)), vals, 'red', new Set());
+  const MAP={study:{wei:'约束弱（自我约束与自律素养）',tools:'后果自负 / 体验匮乏 / 自敛',note:'把选择权与自然后果还给孩子，用「体验匮乏」替代包办代劳，日常练「自敛」——少包办、多让其承担。'},
+    social:{wei:'同伴弱（同伴关系与边界意识）',tools:'互敬 / 边界 / 自敛',note:'在真实同伴互动中练「互敬」，明确表达自己的边界，也尊重他人边界；社交练「自敛」——先听后说。'},
+    life:{wei:'亲子弱（亲子互动与情感表达）',tools:'行为描述法 / 三转向',note:'用录像机式「行为描述」替代评判（只说发生了什么、不加形容）；从「说服→聆听 / 塑造→护航 / 指责→开诚」三转向重建情感连接。'},
+    value:{wei:'情绪弱（情绪觉察与自我调节）',tools:'情绪省察期 / 自我回归期',note:'先命名情绪、给一段「情绪省察期」让其安定，再进入「自我回归期」——把价值感从外部评判收回到自我。'}};
+  let html=''; order.forEach(k=>{ const isW=weakest.includes(k); const mm=MAP[k];
+    html+='<div style="margin-bottom:16px;border-radius:10px;padding:13px 15px;border-left:4px solid #d9dce2;background:#fafbfc;">'+
+    '<div style="font-size:15.5px;font-weight:700;color:#185FA5;">'+DIMNAME(k)+'（均分 '+m[k].toFixed(2)+'）'+(isW?'<span style="display:inline-block;font-size:11px;background:#C0492B;color:#fff;border-radius:6px;padding:1px 6px;margin-left:6px;">优先发力</span>':'')+'</div>'+
+    '<div style="font-size:14px;color:#854F0B;margin-top:4px;">→ 五维发力：'+mm.wei+' ｜ 工具：'+mm.tools+'</div>'+
+    '<div style="font-size:14px;color:#444441;margin-top:3px;">'+mm.note+'</div></div>'; });
+  html+='<div style="margin-bottom:16px;border-radius:10px;padding:13px 15px;border-left:4px solid #b07d1e;background:#fbf6e6;"><div style="font-size:15.5px;font-weight:700;color:#185FA5;">辅助发力 · 独立维</div><div style="font-size:14px;color:#854F0B;margin-top:4px;">→ 独立弱（独立思考与信息甄别）｜ 工具：拼板 / 置换 / 信息甄别</div><div style="font-size:14px;color:#444441;margin-top:3px;">「学习无动力」常与不会独立思考、被信息牵着走有关；可用拼板思维整合多方信息、用置换视角换角度看问题、练信息甄别，反向带动自律。</div></div>';
+  document.getElementById('advice').innerHTML=html;
+}
+/* ---------- org ---------- */
+function renderOrg(m){
+  const dims=CFG.dims;
+  const labels=dims.map(d=>d.short);
+  const vals=dims.map(d=>m[d.key]);
+  const adultMean=m['adult'];
+  let ratioBand, ratioPct;
+  if(adultMean>=4.3){ratioBand='高';ratioPct='约 60% 以上';}
+  else if(adultMean>=3.5){ratioBand='中';ratioPct='约 40–60%';}
+  else if(adultMean>=2.5){ratioBand='偏低';ratioPct='约 25–40%';}
+  else {ratioBand='低';ratioPct='25% 以下';}
+  document.getElementById('resLevel').textContent='成人型心智占比估算：'+ratioBand+'（'+ratioPct+'）';
+  const moatMean=(m['moat_crisis']+m['moat_cross']+m['dualgrow'])/3;
+  let moatGrade;
+  if(moatMean>=4) moatGrade='强 · 护城河较深';
+  else if(moatMean>=3) moatGrade='中 · 护城河一般';
+  else moatGrade='弱 · 护城河浅（风浪中易内耗）';
+  document.getElementById('resNote').textContent='组织护城河（危机自驱/跨团队协作/双向奔赴）综合 '+moatMean.toFixed(2)+' → '+moatGrade+'。成人型心智占比越高，护城河越深、韧性越强。';
+  let met=''; dims.forEach(d=>{const v=m[d.key];met+='<div class="'+tag(v)+'"><div class="m-label">'+d.short+'</div><div class="m-val">'+v.toFixed(2)+'</div></div>';});
+  document.getElementById('metrics').innerHTML=met;
+  drawRadar(labels, vals, 'blue', new Set());
+  const idx=vals.map((v,i)=>i).sort((a,b)=>vals[a]-vals[b]);
+  const weakIdx=idx[0]; const weakD=dims[weakIdx];
+  const DUAL={
+    adult:{struct:'【结构】招聘/提拔看价值观同频度与成熟度，而非只看过往业绩；对价值观确实不同频者按书面约定补偿退出（需行为事实、可举证，禁用「不同频」作不可核验解雇理由，见 ce03）。',
+           mind:'【心智】把「人与事分离、岗位第一责任人制」落到日常；导入心智教育/晨会共读，从和稀泥改为就事论事的复盘文化。'},
+    moat_crisis:{struct:'【结构】建立危机预案与权责手册，明确「谁在什么情况下自行决策」，减少对老板救火的依赖。',
+           mind:'【心智】例行「问题→归因→补位」团队复盘，让成员在危机中先想「我能补哪一块」而非「该怪谁」。'},
+    moat_cross:{struct:'【结构】跨部门协作写进 SOP/接口责任矩阵，靠机制而非靠老板协调；信息割裂处打通。',
+           mind:'【心智】推「协作边界三句话」练习（共同目标/我负责哪段/哪段不是我），减少甩锅与越界。'},
+    dualgrow:{struct:'【结构】变革必须两侧排课且员工侧有可见权益改善（安全感/成长路径/合理报酬）；只对员工排课=软性管控（ce02），只打动老板=空转（ce22）。',
+           mind:'【心智】老板侧先做四观自检（利益/员工/风险/价值观）；员工侧给成长语言与切身收益，避免「是公司让我来的」式零主动。'}
+  };
+  const w=DUAL[weakD.key];
+  let html='';
+  html+='<div style="margin-top:6px;padding:13px 15px;border-radius:10px;border-left:4px solid #185FA5;background:#f3f8fd;">';
+  html+='<div style="font-size:15px;font-weight:700;color:#185FA5;">最弱维度：'+weakD.short+'（'+vals[weakIdx].toFixed(2)+'）</div>';
+  html+='<div style="font-size:14px;color:#444;margin-top:6px;line-height:1.7;">'+w.struct+'</div>';
+  html+='<div style="font-size:14px;color:#444;margin-top:6px;line-height:1.7;">'+w.mind+'</div>';
+  html+='</div>';
+  html+='<div style="margin-top:10px;padding:11px 13px;border-radius:10px;background:#fafbfc;border:1px solid #e6e8ec;font-size:13px;color:#5a5a55;line-height:1.7;">';
+  html+='⚠️ 结构/心智双清单：本报告已含结构性建议。同一问题换三批人仍复发＝结构病因（权责/考核/信息），不在人（ce12）；「心智提升」证据不能是培训满意度。<br>';
+  html+='⚠️ 红线 ce01：不得把低薪/过劳/欠社保等正当劳资诉求柔化为「不同频/量场共识」——那是劳动权益通道，不是心智问题。';
+  html+='</div>';
+  const box=document.getElementById('orgBox');
+  box.style.display='block';
+  box.innerHTML=html;
+}
+/* ---------- boss ---------- */
+function renderBoss(m){
+  const dims=CFG.dims;
+  const vals=dims.map(d=>m[d.key]);
+  const avg=vals.reduce((a,b)=>a+b,0)/vals.length;
+  const idx=vals.map((v,i)=>i).sort((a,b)=>vals[a]-vals[b]);
+  const weakIdx=idx[0]; const weakD=dims[weakIdx];
+  let level,note;
+  if(avg>=4.3){ level='四观较成熟 · 量场源头健康'; note='四观均分 '+avg.toFixed(2)+'，作为组织量场的源头变量，你整体稳；最需打磨的是「'+weakD.short+'」（'+vals[weakIdx].toFixed(2)+'）。'; }
+  else if(avg>=3.5){ level='四观基本成型 · 局部偏位'; note='均分 '+avg.toFixed(2)+'，多数观尚稳，但「'+weakD.short+'」已偏低，是优先觉察点。'; }
+  else if(avg>=2.5){ level='四观失衡明显 · 源头变量需补课'; note='均分 '+avg.toFixed(2)+'，四观有多处偏位，先抓最弱一观「'+weakD.short+'」动手。'; }
+  else { level='四观严重失衡 · 系统性风险高'; note='均分 '+avg.toFixed(2)+'，作为老板，心智不成熟即是组织系统性风险，建议先做最弱一观的觉察与调整。'; }
+  document.getElementById('resLevel').textContent=level;
+  document.getElementById('resNote').textContent=note;
+  let met=''; dims.forEach((d,i)=>{ const v=vals[i]; met+='<div class="'+tag(v)+'"><div class="m-label">'+d.short+'</div><div class="m-val">'+v.toFixed(2)+'</div></div>'; });
+  document.getElementById('metrics').innerHTML=met;
+  drawRadar(dims.map(d=>d.short), vals, 'blue', new Set([weakIdx]));
+  const ADV={
+    interest:{name:'利益观',adv:'把「平衡最大化」当决策第一标尺：每次重大决策先列「被牺牲的利益方是谁」（信任/韧性/员工健康/长期）；若某一维权重为零，警惕「所有会议只审一个数」。给关键人才的对价先于要担当。'},
+    people:{name:'员工观',adv:'把员工当「量场的一部分」，先给对价（安全感/成长路径/对人的理解）再要担当。停止用「公司培养了你」压正当诉求；关心员工状态不只发生在离职面谈。'},
+    risk:{name:'风险观',adv:'把风险主源从「外部/周期」转回「自身认知局限与欲望失衡」。每次扩张/加杠杆前问：这是战略定力，还是驾驭不了自己的欲望？'},
+    values:{name:'价值观观',adv:'价值观的信用只由冲突时刻的选择建立。举一件「因价值观而放弃的收益」——若举不出，它就是包装。把这当成下一季度的硬指标。'}
+  };
+  const w=ADV[weakD.key];
+  let html='';
+  html+='<div style="margin-top:6px;padding:13px 15px;border-radius:10px;border-left:4px solid #185FA5;background:#f3f8fd;">';
+  html+='<div style="font-size:15px;font-weight:700;color:#185FA5;">最偏的一观：'+w.name+'（'+vals[weakIdx].toFixed(2)+'）</div>';
+  html+='<div style="font-size:14px;color:#444;margin-top:6px;line-height:1.7;">'+w.adv+'</div>';
+  html+='</div>';
+  html+='<div style="margin-top:10px;padding:11px 13px;border-radius:10px;background:#fafbfc;border:1px solid #e6e8ec;font-size:13px;color:#5a5a55;line-height:1.7;">';
+  html+='⚠️ 源头变量定位：四观偏位只说明「源头变量」需补课，<b>不替代对行业周期/政策/团队/运气的解释</b>（ce11），别把企业成败单因归到心智。<br>';
+  html+='⚠️ 红线 ce01：本自检<b>不得</b>把低薪/过劳/欠社保等正当劳资诉求柔化为「不同频/心智不成熟」——那是劳动权益通道。<br>';
+  html+='⚠️ 逆发展·顺平衡（ce44 防挪用）：刹车是战略定力，不是拒资/拒加薪/拒扩编的话术；「顺平衡」须同时约束老板侧与员工侧，不可只砍员工侧成本。<br>';
+  html+='⚠️ 心智学不替代医疗/法律；出现持续情绪崩溃、躯体化、自伤意念请转介专业机构。';
+  html+='</div>';
+  const box=document.getElementById('orgBox');
+  box.style.display='block';
+  box.innerHTML=html;
+}
+function DIMNAME(k){ const d=CFG.dims.find(x=>x.key===k); return d?d.short:k; }
+
+document.getElementById('foot').textContent=FOOTNOTE;
+render();
+
+</script>
+</body>
+</html>

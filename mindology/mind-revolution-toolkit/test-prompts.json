@@ -1,0 +1,82 @@
+{
+  "skill": "mind-revolution-toolkit",
+  "version": "0.1.0",
+  "source_book": "《意·心智学 1.4版》 — 意师（国际心智学联合会）",
+  "darwin_compatible": true,
+  "sibling_skills_for_blind_test": [
+    "benyuan-perspective",
+    "mind-level-self-assess",
+    "mind-tripod-principles",
+    "relation-three-principles",
+    "emotion-frequency-decode",
+    "bmc-integration",
+    "value-business-diagnose"
+  ],
+  "test_cases": [
+    {
+      "id": "should-trigger-01",
+      "type": "should_trigger",
+      "prompt": "同事在会上说了一句话我当场就炸了，脱口就是「你就是个杠精」。事后回想，我好像根本没听清他到底在说什么就上火了。",
+      "expected_behavior": "应激活 mind-revolution-toolkit，先做反射思维识别（让用户复述自己的自动反应、分辨脱口而出的是标签还是事实），再执行暂停—复述—求证三步法与去标签（用行为描述替代「杠精」）。",
+      "notes": "正面场景：ce01 反射思维 + ce02 标签化双信号，且用户自述「没听清就上火」，指向认知升级而非关系处置。"
+    },
+    {
+      "id": "should-trigger-02",
+      "type": "should_trigger",
+      "prompt": "这事我想了三天，来来回回就两条路：要么现在辞职，要么忍到年底。没别的选项了。",
+      "expected_behavior": "应激活 mind-revolution-toolkit，用提高维度反问「只有两个选项吗」，去掉二元框架，在安全/伦理先划界的前提下给出非二选一的第三条行动方案。",
+      "notes": "正面场景：困在二元对立，命中「这事只有两个选项/不是A就是B」语言信号。"
+    },
+    {
+      "id": "should-trigger-03",
+      "type": "should_trigger",
+      "prompt": "这条新闻我刷到三个号都在转，说的一模一样，专家也出来讲了，那肯定是真的吧？我已经在群里转发了。",
+      "expected_behavior": "应激活 mind-revolution-toolkit，画信息来源剖面图 + 四问法（谁说的/为什么说/凭什么/谁有异见），做拼板取板与反例搜寻（反例搜寻率≥30%），输出含条件句的整合陈述。",
+      "notes": "正面场景：单一信息源轻信 + 鱼缸（ce03），命中「新闻肯定是真的/专家都说了」。"
+    },
+    {
+      "id": "should-trigger-04",
+      "type": "should_trigger",
+      "prompt": "我现在什么问题都直接丢给 AI，答案一来就拿去用。感觉自己越来越不动脑子了，不过反正答案都对，好像也不用再学什么了。",
+      "expected_behavior": "应激活 mind-revolution-toolkit，指出 ce43 AI 惰性认知退化与「知识积累≠认知扩展」，定位当前思维层级（反射/线性/球形/场式），并给出拼板与四问法的具体练习。",
+      "notes": "正面场景：被 AI 投喂答案 + 「我知识已经够多了」，命中 description 中两条关键 trigger。"
+    },
+    {
+      "id": "should-not-trigger-01",
+      "type": "should_not_trigger",
+      "prompt": "我换了三份工作了，每次都遇到差不多的人、掉进差不多的坑，好像被困在同一个模式里出不来。我是不是心智不太成熟？",
+      "expected_behavior": "不应激活本 skill，应激活 mind-level-self-assess——用户要的是「我在哪一层、下一步怎么长」的层级定位，不是具体的认知工具训练。",
+      "notes": "跨 skill 混淆诱饵（硬性要求）：命中兄弟技能 mind-level-self-assess 的「被困在同一个模式 / 心智不成熟」trigger，防止工具包抢诊断类调用。"
+    },
+    {
+      "id": "should-not-trigger-02",
+      "type": "should_not_trigger",
+      "prompt": "我和我老婆一吵架就失控，说到最后全是互相攻击。怎么才能沟通不变成争吵？",
+      "expected_behavior": "不应激活本 skill，应激活 relation-three-principles——这是关系冲突与沟通处置（互敬·边界·自敛 + 情绪省察期 + 从说服到聆听），本 skill 明确不处理关系冲突。",
+      "notes": "跨 skill 混淆诱饵 2：字面有「一句话就失控」式情绪信号，但诉求是沟通方法，属 relation-three-principles。"
+    },
+    {
+      "id": "should-not-trigger-03",
+      "type": "should_not_trigger",
+      "prompt": "帮我查一下「反射思维」这个概念最早是谁提出来的，出自哪本书、哪一年？",
+      "expected_behavior": "不应激活本 skill，这是纯事实/文献查询，本 skill 的边界明确排除「纯事实查询」；直接检索作答即可。",
+      "notes": "诱饵：关键词命中型假阳性——prompt 里出现 description 的核心术语「反射思维」，但意图是查资料而非认知升级。"
+    },
+    {
+      "id": "edge-01",
+      "type": "edge_case",
+      "prompt": "我看人特别非黑即白，好人坏人一刀切，改不了。我是不是心智还停在儿童型那一层？",
+      "expected_behavior": "允许激活但不得抢主导：用户明确问「停在哪一层」→ 由 mind-level-self-assess 先做层级定位，本 skill 作为 composes-with 的训练环节承接（去标签、提高维度、拼板）。若判定为本 skill 单独主导、不提层级定位，记为触发歧义。",
+      "notes": "边界：description 的「非黑即白」信号与兄弟技能的「儿童型/层级」信号在同一句话里同时命中，是同书 skill 最容易互抢的真实场景。"
+    },
+    {
+      "id": "edge-02",
+      "type": "edge_case",
+      "prompt": "晚饭吃火锅还是烧烤？就这两个选项，纠结死我了。",
+      "expected_behavior": "不应激活本 skill：虽然字面命中「只有两个选项」，但这是日常琐事、无认知受限代价，正常轻量回应即可，不做修识训练。",
+      "notes": "边界：区分「二元对立的认知受限」和「日常二选一」，防止关键词式滥激活。"
+    }
+  ],
+  "minimum_pass_rate": 0.8,
+  "notes": "共 9 条：4 should_trigger + 3 should_not_trigger（其中 2 条为跨 skill 混淆，指向 mind-level-self-assess 与 relation-three-principles）+ 2 edge_case。should_not_trigger 容错为 0：任何一条被判为「应触发本 skill」即整体失败。盲测须同时提供全书 8 个 skill 的 name+description，做「该激活哪一个」的选择题。"
+}

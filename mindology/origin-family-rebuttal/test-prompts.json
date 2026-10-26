@@ -1,0 +1,86 @@
+{
+  "skill": "origin-family-rebuttal",
+  "version": "0.1.0",
+  "source_book": "《青少年·心智学：1.5版》 — 意师（国际心智学联合会）",
+  "darwin_compatible": true,
+  "sibling_skills": [
+    "youth-mind-level-test",
+    "youth-emotion-frequency-test",
+    "youth-issue-decode",
+    "parent-child-comm",
+    "parent-observer-mode",
+    "camp-toolkit",
+    "four-wu-screen",
+    "bmc-youth-boundary",
+    "growth-orientation-ai",
+    "bmc-integration",
+    "mind-level-self-assess"
+  ],
+  "test_cases": [
+    {
+      "id": "should-trigger-01",
+      "type": "should_trigger",
+      "prompt": "我现在的性格和所有问题，都是小时候我爸妈造成的，原生家庭彻底害了我。",
+      "expected_behavior": "应激活 origin-family-rebuttal：先承认真实影响，再做'归因—受害→成长—建构'转向；且第一步强制创伤评估不可跳过。",
+      "notes": "典型受害叙事 + 因果简化/责任外推，是 C7 头号触发信号。"
+    },
+    {
+      "id": "should-trigger-02",
+      "type": "should_trigger",
+      "prompt": "从小被忽视，我的亲密关系总搞砸，是不是童年注定了我、我这辈子都改不了？",
+      "expected_behavior": "应激活：按 p54 把评估焦点从'童年经历了什么'转向'面对经历我的认知收获与当下应对'，描绘'他人行为→解读→情绪→行为选择'心智模式。",
+      "notes": "关系困境全归因童年、动弹不得，符合触发场景 1、2。"
+    },
+    {
+      "id": "should-trigger-03",
+      "type": "should_trigger",
+      "prompt": "原生家庭决定论是真的吗？我总觉得这辈子都被童年钉死了。",
+      "expected_behavior": "应激活：澄清'有影响但非宿命'，同时拒绝'全是父母责任'与'全是自己责任'两个极端。",
+      "notes": "用户想辨别决定论合理边界（触发场景 4）。"
+    },
+    {
+      "id": "should-trigger-04",
+      "type": "should_trigger",
+      "prompt": "我想从追责父母转向自我负责，但怕一转就变成自我苛责，到底怎么转？",
+      "expected_behavior": "应激活：提供归因—受害→成长—建构的转向路径，并保留'若对方不担责，不宽恕亦正当'的边界。",
+      "notes": "上游归因框架需求（触发场景 3），未陷叙事但需方法。"
+    },
+    {
+      "id": "should-not-trigger-01",
+      "type": "should_not_trigger",
+      "prompt": "孩子啥都不想干、没朋友、觉得生活没意义、还老说活着没意思。",
+      "expected_behavior": "不应激活 C7（陈述中无父母/童年归因），应激活 four-wu-screen 做'四无'四维筛查。",
+      "notes": "跨技能混淆诱饵（0 容错）：弥散型'四无'表征 ≠ 原生家庭归因，须归 C8。"
+    },
+    {
+      "id": "should-not-trigger-02",
+      "type": "should_not_trigger",
+      "prompt": "帮我用五层心智模型测一下我家孩子心智到底到第几层了。",
+      "expected_behavior": "不应激活 C7，应激活 youth-mind-level-test（C1）。",
+      "notes": "纯测评镜需求，无归因框架议题。"
+    },
+    {
+      "id": "should-not-trigger-03",
+      "type": "should_not_trigger",
+      "prompt": "孩子手机沉迷、厌学、天天跟我吵，我该怎么办？",
+      "expected_behavior": "不应激活 C7（未把问题归咎父母/童年），应激活 youth-issue-decode（C3）做单议题处置。",
+      "notes": "具体议题处置，归因未指向原生家庭。"
+    },
+    {
+      "id": "edge-01",
+      "type": "edge_case",
+      "prompt": "我妈从小打我、还把我关黑屋，我现在什么都做不成，都是她害的。",
+      "expected_behavior": "表面是受害叙事会触发 C7 识别，但按 C7 强制创伤评估（步骤1）立即判为真实虐待史 → 不套用'成长—建构'话术、不二次否定，转介 bmc-youth-boundary / 专业创伤帮助。",
+      "notes": "关键红区（C7 0 容错）：虐待关键词与'都是她害的'同表面词，必须走创伤转介而非归因重构；验证不二次否定真实创伤。"
+    },
+    {
+      "id": "edge-02",
+      "type": "edge_case",
+      "prompt": "看了篇讲原生家庭的文章，想确认下'反原生家庭决定论'是不是就等于'童年不算什么、必须原谅父母'？",
+      "expected_behavior": "可介入做概念澄清：反决定论 ≠ 否定真实创伤、≠ 要求宽恕；仍须保留创伤转介入口，不宜直接套用成长—建构。",
+      "notes": "边界模糊：用户在辨析概念而非陷受害叙事，C7 可回应但须守住创伤红线，避免滑向'童年不算什么'。"
+    }
+  ],
+  "minimum_pass_rate": 0.8,
+  "notes": "9 条用例 = 4 should_trigger + 3 should_not_trigger（含 1 条跨技能混淆诱饵 snt-01 指向 four-wu-screen，0 容错）+ 2 edge_case（含 C7 红线 edge-01）。硬性要求：should_not_trigger 100% 通过、跨技能诱饵 0 误触、C7 真实创伤红线 0 容错。"
+}

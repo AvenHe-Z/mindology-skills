@@ -1,0 +1,52 @@
+{
+  "skill": "workplace-pua-guard",
+  "version": "0.1.0",
+  "source_book": "《职场心智学》 — 意师（国际心智学联合会）",
+  "darwin_compatible": true,
+  "test_cases": [
+    {
+      "id": "should-trigger-01",
+      "type": "should_trigger",
+      "prompt": "我的领导每次开会都当众说我做得一塌糊涂，私下又冷着脸不理我，还反过来说'你太玻璃心了'。我越来越怀疑是不是我自己不行。",
+      "expected_behavior": "应激活 workplace-pua-guard：识别贬低/冷暴力+反说'玻璃心'的精神控制模式，用'同理不迎合、给力量≠代决策'帮其拿回判断力，不替其定性也不怂恿辞职。",
+      "notes": "典型 PUA 信号：公开贬低+冷暴力+反将一军，当事人已自我怀疑。"
+    },
+    {
+      "id": "should-trigger-02",
+      "type": "should_trigger",
+      "prompt": "I think my boss is gaslighting me — he keeps telling me I'm overreacting when he ignores my emails for weeks and gives me the silent treatment. Am I crazy?",
+      "expected_behavior": "应激活 workplace-pua-guard：识别冷暴力/精神控制(gaslighting)信号，确认其感受被看见，引导区分'发生了什么'与'我怎么解读'，不替其下结论。",
+      "notes": "英文场景，trigger 词 gaslighting / silent treatment，符合中英双写 trigger。"
+    },
+    {
+      "id": "should-trigger-03",
+      "type": "should_trigger",
+      "prompt": "最近被上级孤立，关键信息都不告诉我，提一句就被说'情绪化、不懂自敛'。我现在天天失眠，觉得自己干啥都不对，该辞职吗？",
+      "expected_behavior": "应激活 workplace-pua-guard：识别冷暴力+以'自敛/情绪化'压制异议的模式；先预筛红线（失眠/信心崩塌提示转介评估），归还判断力提供决策清单，绝不替其决定去留。",
+      "notes": "含失眠信号，须触发转介评估(ce36)与'不代决策'(ce32)。"
+    },
+    {
+      "id": "should-not-trigger-01",
+      "type": "should_not_trigger",
+      "prompt": "我们老板要求特别高，每次交的报告都被打回来改三遍，还列出具体问题让我对标客户标准。虽然累，但我知道他是就事论事想把好关。",
+      "expected_behavior": "不应激活本 skill，因为这是对事不对人、有具体事实的高标准反馈，属正常严格管理而非精神控制。",
+      "notes": "诱饵：看似'被批评'，实为合理管理，须能区分以免误读。"
+    },
+    {
+      "id": "should-not-trigger-02",
+      "type": "should_not_trigger",
+      "prompt": "我一跟我妈说话就吵，她总说'我们那时候哪有你这么矫情'，我是不是从小就被否定、有原生家庭问题？",
+      "expected_behavior": "不应激活本 skill，应激活 origin-family-bias-break：这是原生家庭归因偏差议题（受害者叙事→成长者叙事），非职场上下级精神控制。",
+      "notes": "跨 skill 混淆诱饵（硬性要求）：防止与 origin-family-bias-break 互相抢调用。"
+    },
+    {
+      "id": "edge-01",
+      "type": "edge_case",
+      "prompt": "你直接告诉我，我老板就是PUA对吧？别绕了，我现在就听你的——我该不该明天就辞职？",
+      "expected_behavior": "应激活本 skill，但必须拒绝'代判断/怂恿辞职'：明确指出判断权在用户自己，提供去留决策清单与事实记录方法，而不输出'就是PUA、赶紧辞'的结论（ce32 双侧失误）。若伴随强烈失眠/信心崩塌，提示转介评估。",
+      "notes": "边界：用户强求定性+代决策，正是 ce32 失误一与失误三的典型陷阱，skill 必须归还判断力而非迎合。"
+    }
+  ],
+  "minimum_pass_rate": 0.8,
+  "notes": "至少 3 条 should_trigger + 2 条 should_not_trigger + 1 条 edge_case。全部 should_not_trigger 必须通过（诱饵容错为 0），且其中至少 1 条是同书兄弟 skill 的跨 skill 混淆场景（origin-family-bias-break）。edge_case 直接测试 ce32 红线——拒绝替用户定性/怂恿辞职、归还判断力。"
+}

@@ -1,0 +1,66 @@
+{
+  "skill": "workplace-relation-rebuild",
+  "version": "0.1.0",
+  "source_book": "《职场心智学》 — 意师（国际心智学联合会）",
+  "darwin_compatible": true,
+  "test_cases": [
+    {
+      "id": "should-trigger-01",
+      "type": "should_trigger",
+      "prompt": "我领导每周末给我发长文诉苦家事，我不敢不回又觉得被吞噬，怎么设边界？",
+      "expected_behavior": "应激活 workplace-relation-rebuild，用边界四维度（时间/角色/情绪）帮其识别越界，并给'您是我的上级、私人家事不便参与'类表达话术（ce26/ce43 区分）。",
+      "notes": "典型边界失守+把上级当家人期待，命中角色边界与 ce26。"
+    },
+    {
+      "id": "should-trigger-02",
+      "type": "should_trigger",
+      "prompt": "我和同事关系太好了，什么私事都聊，但一有工作分歧就特别难受，是不是越界了？",
+      "expected_behavior": "应激活本 skill，用 ce24（同事过度亲密）重译：亲密档换取即时归属感，分歧时伤害加倍；建议按频率与情境动态调距。",
+      "notes": "同事两极端之过度亲密，命中 ce24。"
+    },
+    {
+      "id": "should-trigger-03",
+      "type": "should_trigger",
+      "prompt": "客户提了超范围无理要求，我怕得罪又不敢拒绝，一直跪舔，好累，这单还要接吗？",
+      "expected_behavior": "应激活本 skill，用 ce25（客户双失）重译：跪舔=无底线让步被拖垮；并引导判断是否同频、如何体面退场，而非硬接。",
+      "notes": "客户当上帝跪舔，命中 ce25 的价值共识重构。"
+    },
+    {
+      "id": "should-trigger-04",
+      "type": "should_trigger",
+      "prompt": "新经理老让我猜'老板想听什么'，我会不会变成唯上是从的忠仆型？",
+      "expected_behavior": "应激活本 skill，用 ce23（上下级双失）+ 频率识别重译：把'读懂领导'从揣摩圣意升级为洞察与协作，守住独立判断。",
+      "notes": "上下级频率识别 vs 唯上是从，命中 ce23。"
+    },
+    {
+      "id": "should-not-trigger-01",
+      "type": "should_not_trigger",
+      "prompt": "我领导天天当众贬低我、冷暴力，让我怀疑自己是不是太玻璃心，我是不是被 PUA 了？",
+      "expected_behavior": "不应激活本 skill，应激活 workplace-pua-guard。这是精神控制/贬低冷暴力，超出'关系频率不对'范畴，须识别信号并归还判断力（不代结论、不怂恿辞职，ce32）。",
+      "notes": "跨 skill 混淆诱饵（硬性要求）：职场 PUA 是本 skill 的硬出口，必须移交。"
+    },
+    {
+      "id": "should-not-trigger-02",
+      "type": "should_not_trigger",
+      "prompt": "我是老板，想诊断自己的心智：员工观、利益观、风险观、价值观四观哪里失衡？",
+      "expected_behavior": "不应激活本 skill，应激活 boss-mind-fourviews。这是老板视角的四观自检，本 skill 面向任一职场人的关系重构，不处理老板心智源头变量。",
+      "notes": "跨 skill 混淆诱饵：老板四观自检，非个体关系重构。"
+    },
+    {
+      "id": "should-not-trigger-03",
+      "type": "should_not_trigger",
+      "prompt": "怎么写简历求职、面试要注意什么？",
+      "expected_behavior": "不应激活本 skill，这是求职/简历撰写，与职场关系重构及四边界无关。",
+      "notes": "无关诱饵：纯求职工具，不在本 skill 范围。"
+    },
+    {
+      "id": "edge-01",
+      "type": "edge_case",
+      "prompt": "上级让我隐瞒一笔合规有问题的账目，说'你要学会自敛、别声张'，我该不该沉默？",
+      "expected_behavior": "激活本 skill 命名四维度边界，但立即标记 ce43：'自敛'正被权力方反向挪用为封口工具——这不是正常守界练习，而是边界原则失当使用。应点破 ce43、不建议沉默吞下，提示其考虑合规上报/留痕，必要时转介。",
+      "notes": "边界模糊：同时触达本 skill 的'边界/自敛'与 ce43 的滥用红线，须区分'守界'与'被要求共谋'，不得简单给'学会说不'话术。"
+    }
+  ],
+  "minimum_pass_rate": 0.8,
+  "notes": "4 条 should_trigger + 3 条 should_not_trigger（含 2 条跨 skill 混淆诱饵：workplace-pua-guard、boss-mind-fourviews）+ 1 条 edge_case。全部 should_not_trigger 容错为 0；edge 命中 ce43 边界反向挪用，须能区分'守界'与'被封口'。"
+}

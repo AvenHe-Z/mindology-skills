@@ -1,0 +1,73 @@
+{
+  "skill": "mind-tripod-principles",
+  "version": "0.1.0",
+  "source_book": "《意·心智学 1.4版》 — 意师（国际心智学联合会）",
+  "darwin_compatible": true,
+  "test_cases": [
+    {
+      "id": "should-trigger-01",
+      "type": "should_trigger",
+      "prompt": "朋友反复借钱不还，我到底该不该原谅他？",
+      "expected_behavior": "应激活 mind-tripod-principles，用宽恕四前提（承认事实/承担责任/接受反噬/接受审核）做'宽容 vs 纵容'定性",
+      "notes": "正面场景：涉及'该不该原谅'——C3 description 触发词明确列出"
+    },
+    {
+      "id": "should-trigger-02",
+      "type": "should_trigger",
+      "prompt": "我是不是好心办了坏事，其实在用'为你好'干涉别人？",
+      "expected_behavior": "应激活 mind-tripod-principles，检核'以善为名'的隐性高尚贪（ce06）",
+      "notes": "正面场景：好心办坏事 / 以善为名控制——C3 trigger 明确"
+    },
+    {
+      "id": "should-trigger-03",
+      "type": "should_trigger",
+      "prompt": "怎么才算真正的尊重？我分不清自己是在尊重还是在讨好。",
+      "expected_behavior": "应激活 mind-tripod-principles，检核尊重（对异己异见与弱势）vs 伪谦和/讨好（ce05）",
+      "notes": "正面场景：尊重/谦和本质辨析——C3 trigger 明确"
+    },
+    {
+      "id": "should-trigger-04",
+      "type": "should_trigger",
+      "prompt": "我的价值观到底是什么？基础价值观和普世价值到底有啥区别？",
+      "expected_behavior": "应激活 mind-tripod-principles，做基础价值观（先天跨文化共识）vs 普世价值（文化输出）的校准",
+      "notes": "正面场景：价值观定性——C3 trigger 明确"
+    },
+    {
+      "id": "should-not-trigger-01",
+      "type": "should_not_trigger",
+      "prompt": "我伴侣一跟我吵架我就失控，我们一说话就吵，怎么沟通才能不吵？",
+      "expected_behavior": "不应激活本 skill，应激活 relation-three-principles（C4）：'一吵架就失控/沟通总变争吵'是 C4 的触发词",
+      "notes": "跨 skill 混淆诱饵（硬性要求）：指向 C4 关系三原则。C3 偏价值定性，C4 偏冲突沟通处置"
+    },
+    {
+      "id": "should-not-trigger-02",
+      "type": "should_not_trigger",
+      "prompt": "我企业越做越大越心慌，墙上价值观没人信，团队还总留不住人",
+      "expected_behavior": "不应激活本 skill，应激活 value-business-diagnose（C8）：组织尺度'企业价值观/留不住人/越做越大越心慌'是 C8 触发词",
+      "notes": "跨 skill 混淆诱饵：指向 C8 价值观商业诊断。C3 是个人或通用价值判据，组织卡点用 C8"
+    },
+    {
+      "id": "should-not-trigger-03",
+      "type": "should_not_trigger",
+      "prompt": "帮我查一下书里'宽恕四前提'具体在哪一章哪一节？",
+      "expected_behavior": "不应激活本 skill，纯信息查询（C3 边界明确：不适用于纯信息查询）",
+      "notes": "诱饵：非技能场景的信息检索"
+    },
+    {
+      "id": "edge-01",
+      "type": "edge_case",
+      "prompt": "我妈总说'我是为你好'逼我按她的方式活，这算不算以善为名的控制？",
+      "expected_behavior": "应激活 mind-tripod-principles（提问形态是价值定性：'算不算以善为名的控制'对应 ce06 隐性高尚贪）。尽管涉及亲密关系边界（C4 也覆盖'以爱为名入侵'），但本问是定性而非'怎么沟通'，主路由 C3",
+      "notes": "边界：C3 定性 vs C4 边界的重叠区。判定标准——以'定性提问'形态优先 C3，C4 作 composes 补充"
+    },
+    {
+      "id": "edge-02",
+      "type": "edge_case",
+      "prompt": "同事总在会上否定我的方案，我觉得不被尊重，但又怕闹僵",
+      "expected_behavior": "不优先触发 C3；主路由 relation-three-principles（C4）：焦点是'职场相处处置/怕闹僵'而非尊重本质定义。C3 可作'尊重（对异己异见）'定性补充，但首路由 C4",
+      "notes": "边界：'不被尊重'一词横跨 C3(尊重定义) 与 C4(互敬/相处)。判定标准——焦点在'怎么相处不闹僵'则偏 C4"
+    }
+  ],
+  "minimum_pass_rate": 0.8,
+  "notes": "4 条 should_trigger + 3 条 should_not_trigger（含 2 条跨 skill 混淆诱饵：C4、C8）+ 2 条 edge_case。诱饵容错为 0。"
+}

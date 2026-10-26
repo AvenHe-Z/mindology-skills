@@ -1,0 +1,37 @@
+{
+  "skill": "workplace-relation-rebuild",
+  "test_cases": [
+    {
+      "id": "should-trigger-01",
+      "prompt": "我领导每周末给我发长文诉苦家事，我不敢不回又觉得被吞噬，怎么设边界？"
+    },
+    {
+      "id": "should-trigger-02",
+      "prompt": "我和同事关系太好了，什么私事都聊，但一有工作分歧就特别难受，是不是越界了？"
+    },
+    {
+      "id": "should-trigger-03",
+      "prompt": "客户提了超范围无理要求，我怕得罪又不敢拒绝，一直跪舔，好累，这单还要接吗？"
+    },
+    {
+      "id": "should-trigger-04",
+      "prompt": "新经理老让我猜'老板想听什么'，我会不会变成唯上是从的忠仆型？"
+    },
+    {
+      "id": "should-not-trigger-01",
+      "prompt": "我领导天天当众贬低我、冷暴力，让我怀疑自己是不是太玻璃心，我是不是被 PUA 了？"
+    },
+    {
+      "id": "should-not-trigger-02",
+      "prompt": "我是老板，想诊断自己的心智：员工观、利益观、风险观、价值观四观哪里失衡？"
+    },
+    {
+      "id": "should-not-trigger-03",
+      "prompt": "怎么写简历求职、面试要注意什么？"
+    },
+    {
+      "id": "edge-01",
+      "prompt": "上级让我隐瞒一笔合规有问题的账目，说'你要学会自敛、别声张'，我该不该沉默？"
+    }
+  ]
+}

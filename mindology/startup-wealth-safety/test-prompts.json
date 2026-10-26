@@ -1,0 +1,66 @@
+{
+  "skill": "startup-wealth-safety",
+  "version": "0.1.0",
+  "source_book": "《职场心智学》 — 意师（国际心智学联合会）",
+  "darwin_compatible": true,
+  "test_cases": [
+    {
+      "id": "should-trigger-01",
+      "type": "should_trigger",
+      "prompt": "我刚拿到一笔大单，想立刻贷款扩产能、招二十个人，感觉'再做三单就安全了'。帮我看看这个节奏对不对。",
+      "expected_behavior": "应激活 startup-wealth-safety：用死亡曲线提示转折点后变量激增风险，用三陷阱自查命中'偶发当常态'，并以'无安全慎发展'闸门要求先确认现金流/风险机制再扩。",
+      "notes": "典型扩张冲动 + '再做几单就安全'的线性安全错觉，正是本 skill 核心场景。"
+    },
+    {
+      "id": "should-trigger-02",
+      "type": "should_trigger",
+      "prompt": "去年踩中一个风口赚了一笔，我把经验写成方法论开始对外讲课，最近想进一个完全不熟悉的赛道，感觉自己无所不能。",
+      "expected_behavior": "应激活 startup-wealth-safety：定位'侥幸当能力'（陷阱二，ce15），提示上行周期红利被错当个人本事，并要求拆分成功里'运气占几成'。",
+      "notes": "把周期性成功当本事、跨陌生领域自信，是三陷阱之二的典型信号。"
+    },
+    {
+      "id": "should-trigger-03",
+      "type": "should_trigger",
+      "prompt": "我们公司管理比较松，问题出了也不追责，我觉得这是人性化、团队自己能转。这样做有问题吗？",
+      "expected_behavior": "应激活 startup-wealth-safety：定位'放任当宽容'（陷阱三，ce16），指出管理失序被包装成宽容，是对组织安全感的最大漠视。",
+      "notes": "用'人性化'为管理失序辩护，直接对应陷阱三。"
+    },
+    {
+      "id": "should-trigger-04",
+      "type": "should_trigger",
+      "prompt": "我一直在纠结要不要扩张，心里总想着'不扩张就会死'，但你说不扩张具体会怎样，我还真说不上来。",
+      "expected_behavior": "应激活 startup-wealth-safety：用死亡曲线自检与'不扩张就会死'执念警报（ce13 warning_signs），并引导用户说出'不扩张的具体后果'再做判断。",
+      "notes": "扩张纠结 + 说不出不扩张后果，是接近转折点的风险信号。"
+    },
+    {
+      "id": "should-not-trigger-01",
+      "type": "should_not_trigger",
+      "prompt": "我们老板要求大家忠诚、天天加班，却不给安全感也不涨薪，还总说'公司培养了你'。这老板心智有问题吗？",
+      "expected_behavior": "不应激活本 skill，应激活 boss-mind-fourviews：这是老板'员工观/利益观'四观失衡（ce09），属源头变量诊断，非创业财富安全刹车。",
+      "notes": "跨 skill 混淆诱饵（硬性要求 ≥1 条）：指向 boss-mind-fourviews 而非本 skill。"
+    },
+    {
+      "id": "should-not-trigger-02",
+      "type": "should_not_trigger",
+      "prompt": "我想评估一下我们公司成员里成人型心智占多少、组织护城河深不深，方便给董事会写诊断报告。",
+      "expected_behavior": "不应激活本 skill，应激活 org-mind-diagnosis：这是组织心智护城河/成人型占比诊断，非死亡曲线与三陷阱刹车。",
+      "notes": "跨 skill 混淆诱饵（硬性要求 ≥1 条）：指向 org-mind-diagnosis。"
+    },
+    {
+      "id": "should-not-trigger-03",
+      "type": "should_not_trigger",
+      "prompt": "我上级天天当众贬低我、冷暴力，搞得我开始怀疑是不是自己玻璃心。这是职场PUA吗？",
+      "expected_behavior": "不应激活本 skill，应激活 workplace-pua-guard：这是上级精神控制识别，与创业财富安全无关。",
+      "notes": "非交叉-skill 的纯诱饵：话题相近（都来自本书）但域完全不同。"
+    },
+    {
+      "id": "edge-01",
+      "type": "edge_case",
+      "prompt": "你不是讲死亡曲线吗？帮我算算，按我们现在的增速，大概什么时候会到转折点、公司哪天会崩？我想提前做准备。",
+      "expected_behavior": "应激活本 skill，但必须拒绝'预测具体时间/转折点数值'的请求（ce13）：明确声明曲线无数据、无阈值、转折点不可事前测定，不能当预测模型；转为提供'风险清单'式自检（哪些变量在激增、安全基线是否稳），不输出任何崩盘时间点。",
+      "notes": "边界测试（ce13 核心）：用户把风险清单误当预测模型。正确行为=拒绝预测、退回风险清单用途，而非给出伪量化结论。"
+    }
+  ],
+  "minimum_pass_rate": 0.8,
+  "notes": "4 条 should_trigger + 3 条 should_not_trigger（其中 2 条为同书兄弟 skill 跨 skill 混淆诱饵）+ 1 条 edge_case（ce13 预测拒绝）。全部 should_not_trigger 容错为 0，且须含拒绝预测的边缘用例。"
+}

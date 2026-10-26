@@ -1,0 +1,94 @@
+{
+  "skill": "youth-emotion-frequency-test",
+  "version": "0.1.0",
+  "source_book": "《青少年·心智学：1.5版》 — 意师",
+  "darwin_compatible": true,
+  "sibling_skills": [
+    "youth-mind-level-test",
+    "youth-emotion-frequency-test",
+    "youth-issue-decode",
+    "parent-child-comm",
+    "parent-observer-mode",
+    "camp-toolkit",
+    "origin-family-rebuttal",
+    "four-wu-screen",
+    "bmc-youth-boundary",
+    "growth-orientation-ai",
+    "bmc-integration",
+    "mind-level-self-assess"
+  ],
+  "test_cases": [
+    {
+      "id": "should-trigger-01",
+      "type": "should_trigger",
+      "prompt": "想看看孩子情感频率什么样，情绪、同伴、亲子哪块偏科。",
+      "expected_behavior": "应激活 youth-emotion-frequency-test：用 15 题量表+五项雷达图定位'情绪觉察/同伴边界/亲子互动/独立思考/自我约束'哪维凹陷。",
+      "notes": "命中关键trigger：'情感频率什么样 emotion frequency shape'、'哪块偏科 which dimension weak'。"
+    },
+    {
+      "id": "should-trigger-02",
+      "type": "should_trigger",
+      "prompt": "孩子总分还行但感觉偏科，懂点事但自律差，想看看是哪维度弱。",
+      "expected_behavior": "应激活 youth-emotion-frequency-test：做 15 题 Likert 施测，强调'维度分析比总分更有价值（p59）'，标出自我约束维度凹陷。",
+      "notes": "命中 trigger 示例：'总分还行但感觉偏科'、'懂点事但自律差'；'维度分析 dimension over total'。"
+    },
+    {
+      "id": "should-trigger-03",
+      "type": "should_trigger",
+      "prompt": "想给孩子画个五项雷达图，看看他情绪觉察和亲子互动维度怎么样。",
+      "expected_behavior": "应激活 youth-emotion-frequency-test：施测后归并五项、绘制雷达图'形状'、标出需重点关注维度。",
+      "notes": "命中关键trigger：'五项雷达图 five-dimension radar'。"
+    },
+    {
+      "id": "should-trigger-04",
+      "type": "should_trigger",
+      "prompt": "我家14岁孩子最近三个月情绪起伏大、同伴关系也不行，想做个情感频率测试。",
+      "expected_behavior": "应激活 youth-emotion-frequency-test：按'近三个月真实状态'完成 15 题量表，定位情绪觉察/同伴边界维度强弱。",
+      "notes": "命中关键trigger：'情感频率什么样 emotion frequency shape'；明确'近三月状态'契合量表设计。"
+    },
+    {
+      "id": "should-trigger-05",
+      "type": "should_trigger",
+      "prompt": "想用15题量表测测孩子，维度分析比总分重要对吧？看看他五维哪里缺。",
+      "expected_behavior": "应激活 youth-emotion-frequency-test：施测计分+五项雷达图，强调维度>总分，给出针对性成长建议。",
+      "notes": "命中关键trigger：'维度分析 dimension over total'、'五项雷达图'。"
+    },
+    {
+      "id": "should-not-trigger-01",
+      "type": "should_not_trigger",
+      "prompt": "想测测孩子的心智到第几层。",
+      "expected_behavior": "不应激活 youth-emotion-frequency-test；应路由 youth-mind-level-test（C1 五层心智层级）。C2 答'哪块偏科'，C1 答'第几层'，二者为易混双评估镜。",
+      "notes": "跨 skill 混淆诱饵（硬性）：'心智到第几层'是 C1 的标志性提问，C2 只答情感频率五维形状。"
+    },
+    {
+      "id": "should-not-trigger-02",
+      "type": "should_not_trigger",
+      "prompt": "孩子老跟我吵架，一说话就吵，怎么沟通？",
+      "expected_behavior": "不应激活 youth-emotion-frequency-test；应路由 parent-child-comm（C4 亲子沟通三转向/行为描述法）。C2 不做沟通话术。",
+      "notes": "跨 skill 混淆诱饵：'吵架/沟通'属 C4 范畴，与情感频率测评无关。"
+    },
+    {
+      "id": "should-not-trigger-03",
+      "type": "should_not_trigger",
+      "prompt": "孩子确诊双相情感障碍，是不是情感频率太低导致的？",
+      "expected_behavior": "不应激活 youth-emotion-frequency-test 做自评归因；应转介 bmc-youth-boundary（C9）/ 精神科（B段 ce17 去医学化漏诊警告：勿把双相误读为情感频率低）。",
+      "notes": "医疗边界诱饵：重性障碍不可归因到情感频率，须转专业医疗。"
+    },
+    {
+      "id": "edge-01",
+      "type": "edge_case",
+      "prompt": "我23岁了，想做情感频率测试看看自己哪维度弱。",
+      "expected_behavior": "不应触发 youth-emotion-frequency-test（10–20岁专属）；应路由核心本 mind-level-self-assess（成人版情感频率理论概念+六层级）。",
+      "notes": "边界：年龄越界。description 开头限定'10–20岁'，但'成人转核心本'仅见于 contrasts-with，description 不适用列表未明示。"
+    },
+    {
+      "id": "edge-02",
+      "type": "edge_case",
+      "prompt": "我想给孩子测情感频率，然后在班会上公开排名看看谁最低。",
+      "expected_behavior": "应触发 youth-emotion-frequency-test，但必须执行 B 段边界：'不公开排名、不贴低频=差标签（p59）'，拒绝排名羞辱，改为一对一引导。",
+      "notes": "边界：触发但带护栏。'公开排名羞辱'是 description 不适用项与 ce17/p59 失败模式，判定为触发+强制边界。"
+    }
+  ],
+  "minimum_pass_rate": 0.8,
+  "notes": "10 条：5 should_trigger + 3 should_not_trigger（含 2 条跨 skill 混淆：C1/C4，1 条医疗边界：C9）+ 2 edge_case。should_not_trigger 容错 0，必须 100% 通过且路由到正确兄弟。"
+}

@@ -1,0 +1,37 @@
+{
+  "skill": "boss-mind-fourviews",
+  "test_cases": [
+    {
+      "id": "should-trigger-01",
+      "prompt": "我是一家创业公司的创始人，最近团队内耗严重、核心员工接连离职，我开始怀疑是不是我自己'看待员工的方式'出了问题。你们说老板心智四观里，员工观具体怎么自检？"
+    },
+    {
+      "id": "should-trigger-02",
+      "prompt": "我们公司墙上价值观写得很好，但一遇到利益冲突老板就绕开不讲了。这算不算'价值观观'失衡？怎么判断老板心智里的四个观哪一个是短板？"
+    },
+    {
+      "id": "should-trigger-03",
+      "prompt": "现在行业不好，我想给公司踩个刹车、不做逆发展了，但员工觉得我就是在找借口不给他们加薪。'逆发展·顺平衡'到底该怎么正确用，不是当拒资话术？"
+    },
+    {
+      "id": "should-trigger-04",
+      "prompt": "I keep reviewing only one number in every meeting—revenue—and cut training whenever costs rise. Someone told me this might be a 'boss mind' issue with my view of profit. How do I self-check the four views?"
+    },
+    {
+      "id": "should-not-trigger-01",
+      "prompt": "我们团队跨部门协作反复失败，HR 想排心智课，但我觉得是权责设计和考核冲突的问题。怎么诊断我们公司整体的组织心智健康度？"
+    },
+    {
+      "id": "should-not-trigger-02",
+      "prompt": "我公司价值观墙写'客户第一'，但销售为冲量承诺做不到的交付。我想从招聘同频度、平衡绩效、心智培训这几个 HR 模块落地价值观商业，该怎么设计？"
+    },
+    {
+      "id": "should-not-trigger-03",
+      "prompt": "员工工资低、天天加班还没社保，我跟老板提加薪被他说'你这心智还不够成熟，要自敛'。这正常吗？"
+    },
+    {
+      "id": "edge-01",
+      "prompt": "我公司连续三年亏损，同行一大片都死了，朋友说我'老板心智决定天花板、失败就是因为心智不够'。我该怎么用四观看看自己，但又不想被这种话打击？"
+    }
+  ]
+}

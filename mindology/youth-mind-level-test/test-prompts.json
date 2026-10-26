@@ -1,0 +1,94 @@
+{
+  "skill": "youth-mind-level-test",
+  "version": "0.1.0",
+  "source_book": "《青少年·心智学：1.5版》 — 意师",
+  "darwin_compatible": true,
+  "sibling_skills": [
+    "youth-mind-level-test",
+    "youth-emotion-frequency-test",
+    "youth-issue-decode",
+    "parent-child-comm",
+    "parent-observer-mode",
+    "camp-toolkit",
+    "origin-family-rebuttal",
+    "four-wu-screen",
+    "bmc-youth-boundary",
+    "growth-orientation-ai",
+    "bmc-integration",
+    "mind-level-self-assess"
+  ],
+  "test_cases": [
+    {
+      "id": "should-trigger-01",
+      "type": "should_trigger",
+      "prompt": "我家孩子12岁，感觉比同龄人差一截、不太懂事，想测测他心智到底到哪一层。",
+      "expected_behavior": "应激活 youth-mind-level-test：用五层心智模型（新星级→金牌级）给孩子做层级定位与分层成长指引，强调'照镜子非贴标签'、心智与年龄无关。",
+      "notes": "命中 description/关键trigger：'跟同龄人差一截 behind peers'、'想测测孩子心智到哪层 which mind level'。"
+    },
+    {
+      "id": "should-trigger-02",
+      "type": "should_trigger",
+      "prompt": "怎么帮孩子心智往上走？我想看看他在五层模型里目前是第几层。",
+      "expected_behavior": "应激活 youth-mind-level-test：先做五套×10题自评定位层级，再给分层成长指引（新星级/潜力级→摆脱反射思维 等）。",
+      "notes": "命中关键trigger：'怎么帮孩子成长 how to help grow'、'心智到哪层 which mind level'。"
+    },
+    {
+      "id": "should-trigger-03",
+      "type": "should_trigger",
+      "prompt": "我侄子18岁了还像个小孩，我12岁的儿子反而更懂事，这正常吗？",
+      "expected_behavior": "应激活 youth-mind-level-test：用'心智层级与生理年龄非正相关（p58）'照镜子式解释错位现象，并引导层级自评。",
+      "notes": "命中 trigger 示例：'12岁比18岁还懂事正常吗'、'照镜子不贴标签 mirror not label'。"
+    },
+    {
+      "id": "should-trigger-04",
+      "type": "should_trigger",
+      "prompt": "15岁女儿老是不懂换位思考，想照镜子看看她心智成熟到什么程度、下一步该练什么。",
+      "expected_behavior": "应激活 youth-mind-level-test：做潜力级（换位思考）相关自评，给'照镜子'式反馈与下一步练习。",
+      "notes": "命中关键trigger：'照镜子不贴标签 mirror not label'；属五层模型'潜力级'维度。"
+    },
+    {
+      "id": "should-trigger-05",
+      "type": "should_trigger",
+      "prompt": "老师说我儿子心智比同学幼稚，想系统测一下他在五层里第几级、和同龄人差在哪。",
+      "expected_behavior": "应激活 youth-mind-level-test：用五层模型给孩子定位当前层级并说明与年龄无关，给出成长坐标而非比较羞辱。",
+      "notes": "综合 trigger：'比同龄人差一截 behind peers' + '心智到哪层 which mind level'。"
+    },
+    {
+      "id": "should-not-trigger-01",
+      "type": "should_not_trigger",
+      "prompt": "孩子老跟我吵架，一开口就吵，怎么说都不听，该怎么沟通？",
+      "expected_behavior": "不应激活 youth-mind-level-test；应路由 parent-child-comm（C4 亲子沟通三转向/行为描述法）。本 skill 只做层级定位，不做沟通话术。",
+      "notes": "跨 skill 混淆诱饵（硬性）：'吵架/沟通'属 C4 范畴，与'心智层级测评'易在一次对话里混问，但 C1 不处理沟通手法。"
+    },
+    {
+      "id": "should-not-trigger-02",
+      "type": "should_not_trigger",
+      "prompt": "孩子天天玩手机、厌学，怎么办？",
+      "expected_behavior": "不应激活 youth-mind-level-test；应路由 youth-issue-decode（C3 议题归因处置，自带红线预筛）。C1 只定位层级、不给具体议题处置方案（contrasts-with C3）。",
+      "notes": "跨 skill 混淆诱饵：议题处置归 C3，C1 明确'不给手机/厌学/叛逆等具体议题解法'。"
+    },
+    {
+      "id": "should-not-trigger-03",
+      "type": "should_not_trigger",
+      "prompt": "孩子有自伤行为、情绪完全失控，是不是心智层级太低、太不懂事？",
+      "expected_behavior": "不应激活 youth-mind-level-test 做自评；应立即转介 bmc-youth-boundary（C9）/ 精神科、儿科（B段医疗边界强制）。",
+      "notes": "医疗边界诱饵：自伤=红黄牌转介信号，本 skill 不构成医疗诊断、不替代医学。"
+    },
+    {
+      "id": "edge-01",
+      "type": "edge_case",
+      "prompt": "我25岁了，想测测自己心智到哪一层、怎么往上走。",
+      "expected_behavior": "不应触发 youth-mind-level-test（10–20岁专属）；应路由核心本 mind-level-self-assess（成人六层级含成年幼稚病诊断）。",
+      "notes": "边界：年龄越界。description 开头限定'10–20岁'，但'成人转核心本'仅见于 contrasts-with，description 不适用列表未明示。"
+    },
+    {
+      "id": "edge-02",
+      "type": "edge_case",
+      "prompt": "我想给孩子做个心智测评，看看他到底多差、好骂醒他。",
+      "expected_behavior": "应触发 youth-mind-level-test，但必须立即执行 B 段边界：'照镜子非贴标签'，拒绝羞辱式标签化（ce18/p58 失败模式），改用成长坐标语言。",
+      "notes": "边界：触发但带护栏。属于'易误用'场景，判定为触发+强制边界，而非纯不触发。"
+    }
+  ],
+  "minimum_pass_rate": 0.8,
+  "notes": "10 条：5 should_trigger + 3 should_not_trigger（含 2 条跨 skill 混淆：C4/C3，1 条医疗边界：C9）+ 2 edge_case。should_not_trigger 容错 0，必须 100% 通过且路由到正确兄弟。"
+}

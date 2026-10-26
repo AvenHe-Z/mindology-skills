@@ -1,0 +1,29 @@
+{
+  "skill": "org-mind-diagnosis",
+  "test_cases": [
+    {
+      "id": "should-trigger-01",
+      "prompt": "我们公司跨部门协作老是扯皮，想做一轮组织心智诊断，看看成人型心智占比够不够、护城河深不深。"
+    },
+    {
+      "id": "should-trigger-02",
+      "prompt": "我准备推行心智教育导入经营，但担心只是给员工上课。怎么做到员工和老板双向奔赴、把我自己升维成量场维系者？"
+    },
+    {
+      "id": "should-trigger-03",
+      "prompt": "How do I assess our company's org-mind moat and adult-mind ratio before a reorg? 团队在风浪里总是先内耗。"
+    },
+    {
+      "id": "should-not-trigger-01",
+      "prompt": "我们老板利益观有问题，只看利润最大化、牺牲员工成长，怎么用四观给他做个自检？"
+    },
+    {
+      "id": "should-not-trigger-02",
+      "prompt": "我们价值观墙上写着'客户第一'，但销售为冲量承诺做不到的交付，绩效只考业绩不考价值观，怎么用一宗旨五要素做 HR 落地？"
+    },
+    {
+      "id": "edge-01",
+      "prompt": "有批员工老抱怨工资低、加班太多、社保没交齐，我说这是'价值观不同频、心智层级还没到'，打算把他们定义为不同频请退，这样算组织心智升级吗？"
+    }
+  ]
+}

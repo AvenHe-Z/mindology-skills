@@ -1,0 +1,73 @@
+{
+  "skill": "relation-three-principles",
+  "version": "0.1.0",
+  "source_book": "《意·心智学 1.4版》 — 意师（国际心智学联合会）",
+  "darwin_compatible": true,
+  "test_cases": [
+    {
+      "id": "should-trigger-01",
+      "type": "should_trigger",
+      "prompt": "我伴侣一跟我吵架就失控，口不择言，怎么才能不这样？",
+      "expected_behavior": "应激活 relation-three-principles，走情绪省察期 + 自敛（最小必要回应）训练",
+      "notes": "正面场景：'一吵架就失控'——C4 trigger 明确列出"
+    },
+    {
+      "id": "should-trigger-02",
+      "type": "should_trigger",
+      "prompt": "被同事冒犯了我特别想报复，凭什么要我忍？",
+      "expected_behavior": "应激活 relation-three-principles，用自敛替代报复，检核越界时的最小必要冲突",
+      "notes": "正面场景：'被冒犯想报复/凭什么要我忍'——C4 trigger 明确"
+    },
+    {
+      "id": "should-trigger-03",
+      "type": "should_trigger",
+      "prompt": "我们一说话就吵，沟通总是变成争吵",
+      "expected_behavior": "应激活 relation-three-principles，做从'说服'到'聆听'的沟通转向 + 情绪路标三步",
+      "notes": "正面场景：'沟通总变争吵'——C4 trigger 明确"
+    },
+    {
+      "id": "should-trigger-04",
+      "type": "should_trigger",
+      "prompt": "我妈说'你爱我就不该有秘密'，我觉得她以爱为名入侵我边界",
+      "expected_behavior": "应激活 relation-three-principles，检核边界（同屋檐≠同边界）与以爱为名入侵（ce26）",
+      "notes": "正面场景：'以爱为名模糊边界'——C4 trigger 明确"
+    },
+    {
+      "id": "should-not-trigger-01",
+      "type": "should_not_trigger",
+      "prompt": "我到底该不该原谅出轨的伴侣？宽恕四前提怎么过？",
+      "expected_behavior": "不应激活本 skill，应激活 mind-tripod-principles（C3）：'该不该原谅 + 宽恕四前提'是 C3 的定性领地。C4 仅负责'怎么沟通摊牌'的处置",
+      "notes": "跨 skill 混淆诱饵（硬性要求）：指向 C3 意理念三基石。C4 description 已明写'纠结该不该原谅用三基石'"
+    },
+    {
+      "id": "should-not-trigger-02",
+      "type": "should_not_trigger",
+      "prompt": "TA到底爱不爱我？我们是真爱还是我把激素当爱情了？",
+      "expected_behavior": "不应激活本 skill，应激活 emotion-frequency-decode（C5）：'爱不爱/真爱还是冲动'是 C5 的情感频率判别。C4 仅负责频率成立后的相处落地",
+      "notes": "跨 skill 混淆诱饵：指向 C5 情感频率解构。C4 description 已明写'用户问 TA 到底爱不爱我转情感频率'"
+    },
+    {
+      "id": "should-not-trigger-03",
+      "type": "should_not_trigger",
+      "prompt": "帮我查一下书里'情绪省察期'和'自我回归期'是怎么定义的？",
+      "expected_behavior": "不应激活本 skill，纯信息查询（C4 边界明确：不适用于纯信息查询）",
+      "notes": "诱饵：非技能场景的信息检索"
+    },
+    {
+      "id": "edge-01",
+      "type": "edge_case",
+      "prompt": "我老公出轨了，我想跟他摊牌沟通，但一开口就吵，怎么才能不失控地谈？",
+      "expected_behavior": "应激活 relation-three-principles：尽管背景是出轨（C3'该不该原谅' looming），但提问形态是'怎么不失控地沟通'——属 C4 的冲突沟通处置（情绪省察期+从说服到聆听）",
+      "notes": "边界：高情绪场景下的'沟通处置'优先 C4。C3 的'该不该原谅'未被问及，故不抢调用"
+    },
+    {
+      "id": "edge-02",
+      "type": "edge_case",
+      "prompt": "TA最近总不回我消息，我怀疑TA不爱我了，但又不敢问怕吵架",
+      "expected_behavior": "不优先触发 C4；主路由 emotion-frequency-decode（C5）：首问是'TA不爱我了'（频率判别）。'怕吵架'虽沾 C4，但应先判频率是否存在，再谈相处落地",
+      "notes": "边界：'爱不爱'判别（C5）优先于'怕吵架'沟通（C4）。判定标准——含频率疑问时先 C5"
+    }
+  ],
+  "minimum_pass_rate": 0.8,
+  "notes": "4 条 should_trigger + 3 条 should_not_trigger（含 2 条跨 skill 混淆诱饵：C3、C5）+ 2 条 edge_case。诱饵容错为 0。"
+}
