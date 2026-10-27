@@ -1,8 +1,13 @@
 ---
 name: mindology
-version: 1.2.2
+version: 1.3.0
 description: |
   心智学技能总路由（1核心 + 2分支，共 28 个 skill）。当用户涉及「心智成熟/心智层级/心智评估、青少年养育（手机沉迷/厌学/叛逆/空心病）、职场心智（PUA/上下级/同事/客户/边界）、组织心智/护城河、老板心智四观、价值观商业、BMC 身心整合/全效养生、原生家庭思维偏差、情感频率、思维革命/修识、意理念三基石、关系三原则」等心智学议题时，由本技能按场景路由到对应子技能。本技能是入口与红线总纲，不直接替代子技能的方法论。
+display_name: "心智学技能套装"
+display_name_en: "Mindology Skill Suite"
+description_zh: "心智学技能总路由（入口与红线总纲），覆盖心智评估、青少年养育、职场心智、组织心智/护城河、老板心智四观、价值观商业、BMC身心整合等28个子技能，按场景路由到对应子技能。"
+description_en: "Mindology skill router (entry + red-line hub) covering 28 sub-skills: mind assessment, youth parenting, workplace mind, org mind, boss four-views, value-business, BMC integration — routes by scenario."
+visibility: "public"
 type: router
 related_skills:
   - slug: benyuan-perspective
@@ -70,7 +75,7 @@ related_skills:
 ## 本技能做什么 / 不做什么
 
 - **做**：判断用户意图落在哪一本书、哪一个 skill；给出命中路径与触发关键词；携带**全局红线**确保任何子技能都不越界。
-- **不做**：不直接执行子技能的方法论（如 BMC 手法、具体测评计分、企业教练个案）。需要落地时，显式调用对应子 skill（若宿主已递归发现嵌套子技能）或指引用户 `@<slug>` 调用。
+- **不做**：不直接执行子技能的方法论（如 BMC 手法、具体测评计分、企业教练个案）。需要落地时，**直接调用命中的子 skill 并严格按其流程执行**——宿主已自动发现本目录全部子 skill，可直接调用，无需用户手动 `@<slug>`；若子技能自带交互网页，子技能会负责定位并打开网页、引导用户作答，路由层确保**命中后即进入子技能执行、不停留在介绍**。仅当宿主无打开能力 / 打开失败时，子技能才回退到聊天式自评并说明原因。
 
 ## 三本书一句话定位
 

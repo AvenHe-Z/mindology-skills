@@ -1,11 +1,12 @@
 # mindology · 心智学技能包
 
-> 一套基于「心智学」体系、可装在 AI智能体 里自动触发的技能集合（skill suite）。
+> 一套基于「心智学」体系、可装在 **大部分 AI 智能体** 里自动触发的技能集合（skill suite）。
 > 由 **1 个路由技能 + 28 个成员技能** 组成，覆盖：心智评估、青少年养育、职场与组织心智。
 
-- 版本：`1.2.2`（详见 `mindology/_meta.json`）
+- 版本：`1.3.0`（详见 `mindology/_meta.json`）
 - 体系结构：**1 核心本 + 2 分支本**（核心本 / 青少年本 / 职场本）
-- 适用宿主：大部分AI智能体
+- 适用宿主：大部分 AI 智能体（WorkBuddy / Claude Code / Codex CLI / ChatGPT 桌面版，以及任何支持 `SKILL.md` 的客户端）
+- 技能格式：`<skill>/SKILL.md`（YAML frontmatter 中的 `name` + `description` 即触发依据）
 - 许可证：MIT（见 `LICENSE`）
 
 ---
@@ -13,23 +14,101 @@
 ## 这是什么
 
 心智学 Skill 是"解答人生困扰·解析情感关系·助力心智成熟"的方法论体系。心智学与心理学，有着本质区别：在心智学体系中，没有所谓“心理问题”，只是心智成长的不同阶段。应对“心理问题”的正确做法，是通过心智成长，而不是医药。
+
 心智学是一套关于「心智成熟 / 心智层级 / 关系 / 组织心智」的成长框架，强调**非病理化、非临床诊断**——它是成长陪伴工具，不替代医疗。本仓库把三本书（《意·心智学 1.4》核心本、《青少年·心智学 1.5》、《职场心智学》）蒸馏成 28 个可触发的技能，并由 `mindology` 路由技能按场景分发。
 
 - `mindology/SKILL.md` —— 总路由与**全局红线总纲**，负责判断意图落在哪本书、哪个技能，并携带不可越界的红线。
 - `mindology/<slug>/` —— 28 个成员技能，每个含 `SKILL.md`（方法论）及部分参考/测试文件。
 - 7 个**交互式测评 HTML**（`boss-mind-fourviews.html`、`four-wu-screen.html`、`mind-level-self-assessment.html`、`org-mind-diagnosis.html`、`workplace-competent-selfassess.html`、`youth-emotion-frequency-test.html`、`youth-mind-level-test.html`）可直接在浏览器打开使用。
 
+> 技能采用**渐进披露**：客户端启动时只读各技能的 `name` + `description`（占用极小上下文），命中后再加载完整 `SKILL.md`。因此 28 个技能可同时常驻，不必担心撑爆上下文。
+
 ---
 
-## 安装
+## 快速开始
 
-1. 把本仓库的 **`mindology/` 整个文件夹**放入AI智能体对应的`/skills/`。
-2. 安装后**重启一次**，再开新任务，确保技能索引刷新。
-3. 触发方式：
-   - **显式调用（最稳）**：问题前加 `@<slug>`，如 `@mind-level-self-assess 测一下我的心智水平`、`@youth-issue-decode 孩子沉迷手机怎么办`。
-   - **自然语言**：各技能描述内置触发词，正常提问即可自动匹配（如"我想评估心智成熟度""老板心智成熟吗""职场 PUA 怎么应对"）。
+```bash
+git clone https://github.com/AvenHe-Z/mindology-skills.git
+cd mindology-skills
+```
 
-> 若宿主只扫描一级技能目录，请将 `mindology/` 下各 `<slug>/` 也平铺到 `skills/` 以保证子技能独立触发；`mindology/SKILL.md` 仍作为总入口。
+### 方式 A：一键脚本（推荐，适配多数客户端）
+
+脚本会把「1 个路由 + 28 个成员」**扁平化**安装到目标目录（兼容只扫描一级子目录的客户端）。
+
+| 客户端 | 安装命令 |
+|---|---|
+| **Claude Code** | `bash scripts/install.sh ~/.claude/skills` |
+| **Codex CLI** | `bash scripts/install.sh ~/.agents/skills` |
+| **WorkBuddy** | `bash scripts/install.sh ~/.workbuddy/skills` |
+| **Windows（PowerShell）** | `powershell -ExecutionPolicy Bypass -File .\scripts\install.ps1 -Target "$env:USERPROFILE\.agents\skills"` |
+
+> 目标目录可任意替换为你所用客户端的技能目录，见下方对照表。
+
+### 方式 B：手动安装
+
+```bash
+# 以 Codex CLI 为例（其他客户端把 <SKILLS_DIR> 换成对应目录即可）
+SKILLS_DIR="$HOME/.agents/skills"
+
+# 1) 路由技能
+mkdir -p "$SKILLS_DIR/mindology"
+cp mindology/SKILL.md mindology/_meta.json "$SKILLS_DIR/mindology/"
+
+# 2) 28 个成员技能（各自独立一级目录）
+for d in mindology/*/; do
+  cp -r "$d" "$SKILLS_DIR/$(basename "$d")"
+done
+```
+
+Windows PowerShell 等价写法：
+
+```powershell
+$SKILLS_DIR = "$env:USERPROFILE\.agents\skills"
+New-Item -ItemType Directory -Force "$SKILLS_DIR\mindology" | Out-Null
+Copy-Item mindology\SKILL.md, mindology\_meta.json "$SKILLS_DIR\mindology\" -Force
+Get-ChildItem mindology -Directory | ForEach-Object {
+  Copy-Item $_.FullName "$SKILLS_DIR\$($_.Name)" -Recurse -Force
+}
+```
+
+### 方式 C：支持递归发现的客户端（如 WorkBuddy）
+
+直接把整个 `mindology/` 文件夹放进技能目录即可，子技能会被自动发现：
+
+```bash
+cp -r mindology ~/.workbuddy/skills/
+```
+
+---
+
+## 各客户端技能目录
+
+| 客户端 | 用户级目录 | 项目级目录 | 调用方式 |
+|---|---|---|---|
+| **WorkBuddy** | `~/.workbuddy/skills/` | `.workbuddy/skills/` | `@<slug>` 或自然语言 |
+| **Claude Code** | `~/.claude/skills/` | `.claude/skills/` | 依 `description` 自动触发 |
+| **Codex CLI** | `~/.agents/skills/` | `.agents/skills/` | `$<slug>` 或 `/skills` |
+| **ChatGPT 桌面版** | Skills 侧边栏（添加/上传） | — | `@` 选择技能 |
+| 其他支持 Agent Skills 的客户端 | 多为 `.agents/skills/` 或客户端自有目录 | 同 | 以官方文档为准 |
+
+> 标准本质：只要让每个 `<slug>/SKILL.md` 出现在客户端的「技能发现目录」下，该技能即可被加载。`~/.agents/skills/` 是较为通用的位置。
+
+---
+
+## 触发与验证
+
+装好后**重启 / 重载**客户端（索引刷新），然后任选其一验证：
+
+- **自然语言**：`测一下我的心智水平` / `孩子沉迷手机怎么办` / `老板心智成熟吗`
+- **显式调用**：按客户端语法指定技能，如 `@mind-level-self-assess`、`$youth-issue-decode`、`/skills`
+
+| 现象 | 处理 |
+|---|---|
+| 装了没反应 | 重启/重载客户端再开新会话 |
+| 仍不触发 | 用显式语法点名（`@` / `$` / `/skills`） |
+| 技能重复或冲突 | 删除旧版同名技能，只保留一份 |
+| 只想某个项目用 | 装到项目级目录，而非用户级 |
 
 ---
 
@@ -80,6 +159,27 @@
 
 ---
 
+## 目录结构
+
+```
+mindology-skills/
+├── README.md                # 本文件
+├── LICENSE                  # MIT
+├── scripts/
+│   ├── install.sh           # 一键安装（macOS / Linux / Git Bash）
+│   └── install.ps1          # 一键安装（Windows PowerShell）
+└── mindology/               # 技能包本体
+    ├── SKILL.md             # 总路由 + 红线总纲（name: mindology）
+    ├── _meta.json           # 版本信息
+    └── <slug>/              # 28 个成员技能（各含 SKILL.md）
+```
+
+> **扁平化说明**：部分客户端只扫描技能目录的**一级子目录**。一键脚本会把路由装成 `mindology/`、28 个成员各自装成 `<slug>/`，与其同级，从而在任何客户端都能被独立发现。支持递归发现的客户端（如 WorkBuddy）也可直接整包放入 `mindology/`。
+
+> 注：`mindology/SKILL.md` 中提到的三本书精华（`*DIGEST.md` / `*INDEX.md` / `*GLOSSARY.md`）为配套资料，未随本包发布；不影响技能触发与核心功能。
+
+---
+
 ## 全局红线（任何子技能必须继承）
 
 1. **医学/转介红线（最高优先级）**：重性精神障碍、急性自伤/自杀风险、幻觉妄想、器质性病变、严重成瘾、服药者擅自停减药——心智学不替代医疗，立即转介精神科/专业机构。
@@ -87,23 +187,6 @@
 3. **真实创伤红线**：原生家庭/童年虐待/长期忽视史，不得只做"成长者叙事改写"替代专业评估，停止二次否定。
 4. **高危人群红线（BATA）**：老人/孕产妇/术后/精神科在治/未成年人，BATA 三天速成不得无差别上手，不替代就医；招商不得渲染暴富，须披露成本/回本/失败率。
 5. **认证边界**：IAMS 等认证外部无第三方效力；企业付费双委托方保密冲突须事前约定。
-
----
-
-## 目录结构
-
-```
-mindology-skills/
-├── README.md              # 本文件
-├── LICENSE                # MIT
-└── mindology/             # 技能包本体（复制到 ~/.workbuddy/skills/ 下）
-    ├── SKILL.md           # 总路由 + 红线总纲
-    ├── _meta.json         # 版本信息
-    ├── <slug>/            # 28 个成员技能（各含 SKILL.md）
-    └── ...
-```
-
-> 注：`mindology/SKILL.md` 中提到的三本书精华（`*DIGEST.md` / `*INDEX.md` / `*GLOSSARY.md`）为配套资料，未随本包发布；不影响技能触发与核心功能。
 
 ---
 
