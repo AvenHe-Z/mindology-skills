@@ -5,7 +5,7 @@
 
 - 版本：`1.2.2`（详见 `mindology/_meta.json`）
 - 体系结构：**1 核心本 + 2 分支本**（核心本 / 青少年本 / 职场本）
-- 适用宿主：WorkBuddy（`~/.workbuddy/skills/` 用户级，或项目 `.workbuddy/skills/` 项目级）
+- 适用宿主：大部分AI智能体
 - 许可证：MIT（见 `LICENSE`）
 
 ---
@@ -23,8 +23,8 @@
 
 ## 安装
 
-1. 把本仓库的 **`mindology/` 整个文件夹**放入 `~/.workbuddy/skills/`（推荐用户级）或项目的 `.workbuddy/skills/`。
-2. 安装后**重启一次 WorkBuddy**，再开新任务，确保技能索引刷新。
+1. 把本仓库的 **`mindology/` 整个文件夹**放入AI智能体对应的`/skills/`。
+2. 安装后**重启一次**，再开新任务，确保技能索引刷新。
 3. 触发方式：
    - **显式调用（最稳）**：问题前加 `@<slug>`，如 `@mind-level-self-assess 测一下我的心智水平`、`@youth-issue-decode 孩子沉迷手机怎么办`。
    - **自然语言**：各技能描述内置触发词，正常提问即可自动匹配（如"我想评估心智成熟度""老板心智成熟吗""职场 PUA 怎么应对"）。
